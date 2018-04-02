@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "847826683237",
+    "firebase_url": "https://maps-1504182721859.firebaseio.com",
+    "project_id": "maps-1504182721859",
+    "storage_bucket": "maps-1504182721859.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847826683237:android:6de4016599db772a",
+        "android_client_info": {
+          "package_name": "com.se2006.teamkaydon.powerlah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847826683237-lq66bl6u87pgnjto08ghbqumicgm066m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtLrrkBqGpOWqeyZpAA_NJf829x1OnSvo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
