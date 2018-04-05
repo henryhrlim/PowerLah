@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".SettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -78,14 +78,6 @@
             android:singleLine="true"
             tools:ignore="InvalidImeActionId" />
 
-        <Button
-            android:id="@+id/maps"
-            style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/maps_activity"
-            android:textStyle="bold" />
 
         <Button
             android:id="@+id/changeEmail"

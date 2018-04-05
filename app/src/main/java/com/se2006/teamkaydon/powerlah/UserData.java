@@ -3,11 +3,16 @@ package com.se2006.teamkaydon.powerlah;
 public class UserData {
     public String uid;
     public String email;
-    public String password;
     public int walletValue;
 
     public UserData() {
         // Default constructor required for calls to DataSnapshot.getValue(UserData.class)
+    }
+
+    public UserData(String uid, String email, int walletValue) {
+        this.uid = uid;
+        this.email = email;
+        this.walletValue = walletValue;
     }
 
     public String getUid() {
@@ -26,14 +31,6 @@ public class UserData {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public int getWalletValue() {
         return walletValue;
     }
@@ -42,10 +39,5 @@ public class UserData {
         this.walletValue = walletValue;
     }
 
-    public UserData(String uid, String email, String password, int walletValue) {
-        this.uid = uid;
-        this.email = email;
-        this.password = password;
-        this. walletValue = walletValue;
-    }
+
 }
