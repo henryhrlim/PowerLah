@@ -15,6 +15,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.se2006.teamkaydon.powerlah.UserDataManager.*;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -89,7 +97,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(SignUpActivity.this, SettingsActivity.class));
+                                    onAuthSuccess(task.getResult().getUser());
+                                    startActivity(new Intent(SignUpActivity.this, MapsActivity.class));
                                     finish();
                                 }
                             }
@@ -103,5 +112,14 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void onAuthSuccess(FirebaseUser user){
+        // Write new user
+        String uid = user.getUid();
+        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mUserRef = mRootRef.child("users");
+
+        mUserRef.child(uid).setValue(0.00);
     }
 }

@@ -106,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    onAuthSuccess(task.getResult().getUser());
                                     Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -116,11 +115,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void onAuthSuccess(FirebaseUser user){
-        // Write new user
-        UserDataManager.writeNewUser(user.getUid(), user.getEmail(),0);
-    }
-
-
 }

@@ -2,16 +2,14 @@ package com.se2006.teamkaydon.powerlah;
 
 public class UserData {
     public String uid;
-    public String email;
-    public int walletValue;
+    public float walletValue;
 
     public UserData() {
         // Default constructor required for calls to DataSnapshot.getValue(UserData.class)
     }
 
-    public UserData(String uid, String email, int walletValue) {
+    public UserData(String uid, int walletValue) {
         this.uid = uid;
-        this.email = email;
         this.walletValue = walletValue;
     }
 
@@ -23,19 +21,11 @@ public class UserData {
         this.uid = uid;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getWalletValue() {
+    public float getWalletValue() {
         return walletValue;
     }
 
-    public void setWalletValue(int walletValue) {
+    public void setWalletValue(float walletValue) {
         this.walletValue = walletValue;
     }
 
