@@ -138,7 +138,7 @@ public class PaymentActivity extends FragmentActivity implements FragmentManager
         } else {
             Toast.makeText(PaymentActivity.this, "Paying using this card...", Toast.LENGTH_SHORT).show();
             Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_CANCELED, returnIntent);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
 

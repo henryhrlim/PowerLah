@@ -2,8 +2,10 @@ package com.se2006.teamkaydon.powerlah;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +40,15 @@ public class WalletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar myChildToolbar =
+                (Toolbar) findViewById(R.id.wallet_toolbar);
+        setSupportActionBar(myChildToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
 
 
         payButton = (Button) findViewById(R.id.payButton);
@@ -88,9 +98,12 @@ public class WalletActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_CANCELED) {
+            if (resultCode == Activity.RESULT_OK){
                 mWalletRef.setValue(totalValue);
                 Toast.makeText(WalletActivity.this, "Payment successful!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(WalletActivity.this, "Payment failed!", Toast.LENGTH_SHORT).show();
             }
         }
     }//onActivityResult

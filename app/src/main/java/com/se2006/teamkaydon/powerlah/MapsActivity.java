@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +35,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -223,34 +229,37 @@ public class MapsActivity extends AppCompatActivity
                 c.setLongitude(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Longitude"))));
                 c.setChargers(Integer.parseInt(cursor.getString(cursor.getColumnIndex("Chargers"))));
 //                c.setChargers(20);
-                createMarker(googleMap, c.getLatitude(), c.getLongitude(), c.getChargers() + " " + c.getName(), c.getInfo() + " (S)" + c.getZip());
+                createMarker(googleMap,c);
                 ChargingStationList.add(c);
             } while (cursor.moveToNext());
         }
         cursor.close();
     }
 
-    public Marker createMarker(GoogleMap googleMap, double latitude, double longitude, String title, String snippet) {
-        return googleMap.addMarker(new MarkerOptions()
+    public Marker createMarker(GoogleMap googleMap, ChargingStationData c) {
+        int stationIndex = c.getIndex();
+        double latitude = c.getLatitude();
+        double longitude = c.getLongitude();
+        String title = c.getName();
+        String snippet = c.getInfo() + " (S)" + c.getZip();
+        Marker m = googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .anchor(0.5f, 0.5f)
                 .title(title)
                 .snippet(snippet));
+        m.setTag(stationIndex);
+        return m;
     }
 
     /* Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(Marker marker) {
-        // Retrieve the data from the marker.
-//        Integer clickCount = (Integer) marker.getTag();
-//
-//        // Check if a click count was set, then display the click count.
-//        if (clickCount != null) {
-//            clickCount = clickCount + 1;
-//            marker.setTag(clickCount);
-//            Toast.makeText(this, marker.getTitle() + " has been clicked " + clickCount + " times.",
-//                    Toast.LENGTH_SHORT).show();
-//        }
+        //Retrieve the data from the marker.
+        String stationIndex = (String) marker.getTag();
+
+        //Location.distanceBetween();
+        //if()
+
 
         // Return false to indicate that we have not consumed the event and that we wish for the default
         // behaviour to occur (which is for the camera to move such that the marker is centered
@@ -308,14 +317,11 @@ public class MapsActivity extends AppCompatActivity
         if (id == R.id.nav_settings) {
             // Handle the camera action
             startActivity(new Intent(MapsActivity.this, SettingsActivity.class));
-            finish();
         } else if (id == R.id.nav_gallery) {
             startActivity(new Intent(MapsActivity.this, WalletActivity.class));
-            finish();
 
         } else if (id == R.id.nav_slideshow) {
             startActivity(new Intent(MapsActivity.this, BatteryActivity.class));
-            finish();
 
         } else if (id == R.id.nav_manage) {
         }

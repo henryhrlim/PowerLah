@@ -1,5 +1,6 @@
 package com.se2006.teamkaydon.powerlah;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,11 +31,15 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar myChildToolbar =
+                (Toolbar) findViewById(R.id.settings_toolbar);
+        setSupportActionBar(myChildToolbar);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        setSupportActionBar(toolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();

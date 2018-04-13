@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Power-full</string>
+    <string name="app_name">Power(full)</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
@@ -11,7 +11,7 @@
     <string name="remove_user">Remove user</string>
     <string name="new_pass">New Password</string>
     <string name="maps_activity">Borrow a powerbank</string>
-    <string name="title_activity_profile">Power-Full</string>
+    <string name="title_activity_profile">Power(full)</string>
     <string name="title_activity_login">Sign in</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -104,7 +104,7 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="title_activity_maps2">Maps2Activity</string>
+    <string name="title_activity_maps2">Power(full)</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Power(full)</string>

@@ -1,5 +1,6 @@
 package com.se2006.teamkaydon.powerlah;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -20,6 +21,7 @@ public class ChargingStationDataManager implements ChargingStationDAO {
         mDbHelper = new SQLiteHelper(mContext);
     }
 
+    @SuppressLint("LongLogTag")
     public ChargingStationDataManager createDatabase() throws SQLException {
         try {
             mDbHelper.createDataBase();
@@ -30,6 +32,7 @@ public class ChargingStationDataManager implements ChargingStationDAO {
         return this;
     }
 
+    @SuppressLint("LongLogTag")
     public ChargingStationDataManager open() throws SQLException {
         try {
             mDbHelper.openDataBase();
@@ -47,6 +50,7 @@ public class ChargingStationDataManager implements ChargingStationDAO {
         mDbHelper.close();
     }
 
+    @SuppressLint("LongLogTag")
     public Cursor retrieveData() {
         try {
             String sql ="SELECT * FROM ChargingStationLocations";
