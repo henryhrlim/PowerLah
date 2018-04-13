@@ -1,78 +1,202 @@
 package com.se2006.teamkaydon.powerlah;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.se2006.teamkaydon.powerlah.PaymentFramework.CCFragment.CCNameFragment;
+import com.se2006.teamkaydon.powerlah.PaymentFramework.CCFragment.CCNumberFragment;
+import com.se2006.teamkaydon.powerlah.PaymentFramework.CCFragment.CCSecureCodeFragment;
+import com.se2006.teamkaydon.powerlah.PaymentFramework.CCFragment.CCValidityFragment;
+import com.se2006.teamkaydon.powerlah.PaymentFramework.Utils.CreditCardUtils;
+import com.se2006.teamkaydon.powerlah.PaymentFramework.Utils.ViewPagerAdapter;
 
-import java.util.HashMap;
-import java.util.Map;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends FragmentActivity implements FragmentManager.OnBackStackChangedListener {
 
-    private TextView currentAmount;
-    private EditText payAmount;
-    private Button payButton;
-    private Float walletValue;
+    @BindView(R.id.btnNext)
+    Button btnNext;
+
+    public CardFrontFragment cardFrontFragment;
+    public CardBackFragment cardBackFragment;
+
+    //This is our viewPager
+    private ViewPager viewPager;
+
+    CCNumberFragment numberFragment;
+    CCNameFragment nameFragment;
+    CCValidityFragment validityFragment;
+    CCSecureCodeFragment secureCodeFragment;
+
+    int total_item;
+    boolean backTrack = false;
+
+    private boolean mShowingBack = false;
+
+    String cardNumber, cardCVV, cardValidity, cardName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        payButton = (Button) findViewById(R.id.payButton);
-        payAmount = (EditText) findViewById(R.id.payAmount);
-        currentAmount = (TextView) findViewById(R.id.currentAmount);
+        ButterKnife.bind(this);
 
 
-        //display current wallet amount
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        String uid = user.getUid();
-        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference mWalletRef = mRootRef.child("users").child(uid);
+        cardFrontFragment = new CardFrontFragment();
+        cardBackFragment = new CardBackFragment();
 
-        mWalletRef.addValueEventListener(new ValueEventListener() {
+        if (savedInstanceState == null) {
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, cardFrontFragment).commit();
+
+        } else {
+            mShowingBack = (getFragmentManager().getBackStackEntryCount() > 0);
+        }
+
+        getFragmentManager().addOnBackStackChangedListener(this);
+
+        //Initializing viewPager
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(4);
+        setupViewPager(viewPager);
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                walletValue = dataSnapshot.getValue(Float.class);
-                String sWallet = Float.toString(walletValue);
-                currentAmount.setText(sWallet);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onPageSelected(int position) {
+                if (position == total_item)
+                    btnNext.setText("SUBMIT");
+                else
+                    btnNext.setText("NEXT");
 
-            }
-        });
+                Log.d("track", "onPageSelected: " + position);
 
-
-        payButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String amt = String.valueOf(payAmount.getText());
-
-                if (TextUtils.isEmpty(amt)) {
-                    Toast.makeText(getApplicationContext(), "Enter an amount to top up!", Toast.LENGTH_SHORT).show();
-                    return;
+                if (position == total_item) {
+                    flipCard();
+                    backTrack = true;
+                } else if (position == total_item - 1 && backTrack) {
+                    flipCard();
+                    backTrack = false;
                 }
 
-                Float totalValue = walletValue + Float.parseFloat(amt);
-                mWalletRef.setValue(totalValue);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = viewPager.getCurrentItem();
+                if (pos < total_item) {
+                    viewPager.setCurrentItem(pos + 1);
+                } else {
+                    checkEntries();
+                }
+
+            }
+        });
+
+
+    }
+
+    public void checkEntries() {
+        cardName = nameFragment.getName();
+        cardNumber = numberFragment.getCardNumber();
+        cardValidity = validityFragment.getValidity();
+        cardCVV = secureCodeFragment.getValue();
+
+        if (TextUtils.isEmpty(cardName)) {
+            Toast.makeText(PaymentActivity.this, "Enter Valid Name", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(cardNumber) || !CreditCardUtils.isValid(cardNumber.replace(" ",""))) {
+            Toast.makeText(PaymentActivity.this, "Enter Valid card number", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(cardValidity)||!CreditCardUtils.isValidDate(cardValidity)) {
+            Toast.makeText(PaymentActivity.this, "Enter correct validity", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(cardCVV)||cardCVV.length()<3) {
+            Toast.makeText(PaymentActivity.this, "Enter valid security number", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(PaymentActivity.this, "Paying using this card...", Toast.LENGTH_SHORT).show();
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+            finish();
+        }
+
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        mShowingBack = (getFragmentManager().getBackStackEntryCount() > 0);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        numberFragment = new CCNumberFragment();
+        nameFragment = new CCNameFragment();
+        validityFragment = new CCValidityFragment();
+        secureCodeFragment = new CCSecureCodeFragment();
+        adapter.addFragment(numberFragment);
+        adapter.addFragment(nameFragment);
+        adapter.addFragment(validityFragment);
+        adapter.addFragment(secureCodeFragment);
+
+        total_item = adapter.getCount() - 1;
+        viewPager.setAdapter(adapter);
+
+    }
+
+    private void flipCard() {
+        if (mShowingBack) {
+            getFragmentManager().popBackStack();
+            return;
+        }
+        // Flip to the back.
+        //setCustomAnimations(int enter, int exit, int popEnter, int popExit)
+
+        mShowingBack = true;
+
+        getFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.animator.card_flip_right_in,
+                        R.animator.card_flip_right_out,
+                        R.animator.card_flip_left_in,
+                        R.animator.card_flip_left_out)
+                .replace(R.id.fragment_container, cardBackFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        int pos = viewPager.getCurrentItem();
+        if (pos > 0) {
+            viewPager.setCurrentItem(pos - 1);
+        } else
+            super.onBackPressed();
+    }
+
+    public void nextClick() {
+        btnNext.performClick();
     }
 }

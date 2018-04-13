@@ -12,6 +12,7 @@ public class BatteryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battery);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         SeekBar seekBar;
         seekBar = findViewById(R.id.seekBarBatt);

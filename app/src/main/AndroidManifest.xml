@@ -50,15 +50,25 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps2"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PaymentActivity" />
-        <activity android:name=".BatteryActivity"></activity>
+        <activity android:name=".WalletActivity"
+                    android:parentActivityName=".MapsActivity" >
+        </activity>
+        <activity android:name=".BatteryActivity"
+            android:parentActivityName=".MapsActivity" >
+        </activity>
+
         <receiver android:name=".BatteryLevelReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED"/>
-            </intent-filter>/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED" />
+            </intent-filter>
+            />
         </receiver>
+
+        <activity android:name=".PaymentActivity"
+            android:parentActivityName=".MapsActivity" >
+        </activity>
     </application>
 
 </manifest>

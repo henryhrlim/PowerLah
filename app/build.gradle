@@ -19,6 +19,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.android.gms:play-services-base:12.0.0'
     implementation 'com.google.android.gms:play-services-maps:12.0.0'
