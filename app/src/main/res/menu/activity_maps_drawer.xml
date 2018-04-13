@@ -18,8 +18,8 @@
             android:title="Battery Threshold" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/ic_menu_money"
+            android:title="Portable Charger Status" />
     </group>
 
 </menu>

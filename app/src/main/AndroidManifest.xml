@@ -72,8 +72,7 @@
             android:parentActivityName=".MapsActivity" />
         <activity android:name=".PortableChargerActivity" />
         <activity
-            android:name=".TimerActivity"
-            android:parentActivityName=".MapsActivity"/>
+            android:name=".TimerActivity" />
     </application>
 
 </manifest>

@@ -8,20 +8,20 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
-        android:layout_width="383dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/timer_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
         <TextView
             android:id="@+id/payment"
@@ -75,7 +75,5 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.651" />
-
-    </android.support.design.widget.AppBarLayout>
 
 </android.support.constraint.ConstraintLayout>

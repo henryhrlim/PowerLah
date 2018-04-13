@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -54,6 +55,21 @@ public class TimerActivity extends AppCompatActivity {
         timerValue = (TextView) findViewById(R.id.timerValue);
         payment = (TextView) findViewById(R.id.payment);
         startButton = (Button) findViewById(R.id.startButton);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String status = null;
+        if (bundle != null) {
+            status = bundle.getString("Status");
+            if(status.equals("Borrow")){
+                startTimer();
+            }
+            else if(status.equals("Return")){
+                stopTimer();
+            }
+        }
+
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -108,12 +124,14 @@ public class TimerActivity extends AppCompatActivity {
 
     public void initChannels(Context context) {
         if (Build.VERSION.SDK_INT < 26) {
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             return;
+        } else {
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel("test", "Testing Channel", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Channel description");
+            notificationManager.createNotificationChannel(channel);
         }
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel("test", "Testing Channel", NotificationManager.IMPORTANCE_HIGH);
-        channel.setDescription("Channel description");
-        notificationManager.createNotificationChannel(channel);
     }
 
     public void calculatePayment(double timeInMilliseconds) {
@@ -122,5 +140,24 @@ public class TimerActivity extends AppCompatActivity {
         double total = timeInMilliseconds / 1000 / 60 * rate;
         String paymentString = "Please pay $" + String.format("%.2f", total);
         payment.setText(paymentString);
+    }
+
+    public void startTimer(){
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+        n = new NotificationCompat.Builder(TimerActivity.this, "test")
+                .setContentTitle(getPackageName())
+                .setContentText("NOTIFICATION!")
+                .setBadgeIconType(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(4);
+    }
+
+    public void stopTimer(){
+        calculatePayment(timeInMilliseconds);
+        timeInMilliseconds = 0;
+        timerValue.setText("00:00");
+        customHandler.removeCallbacks(updateTimerThread);
     }
 }

@@ -64,7 +64,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/device/ic_battery_alert_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_attach_money_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -74,7 +74,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_menu_battery" />
+                            <entry key="outputName" value="ic_menu_money" />
                             <entry key="sourceFile" value="C:\Users\Henry Lim" />
                           </map>
                         </option>

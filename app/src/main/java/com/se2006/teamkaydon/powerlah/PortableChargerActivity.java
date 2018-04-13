@@ -64,6 +64,7 @@ public class PortableChargerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BorrowPortable(mStationRef);
+
             }
         });
 
@@ -81,6 +82,11 @@ public class PortableChargerActivity extends AppCompatActivity {
         mStationRef.setValue(stationChargerAmt);
         borrowBtn.setVisibility(View.GONE);
         returnBtn.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(PortableChargerActivity.this, TimerActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Status", "Borrow");
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void ReturnPortable(DatabaseReference mStationRef){
@@ -88,5 +94,10 @@ public class PortableChargerActivity extends AppCompatActivity {
         mStationRef.setValue(stationChargerAmt);
         returnBtn.setVisibility(View.GONE);
         borrowBtn.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(PortableChargerActivity.this, TimerActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Status", "Return");
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
