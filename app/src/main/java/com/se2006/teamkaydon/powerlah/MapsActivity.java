@@ -3,6 +3,7 @@ package com.se2006.teamkaydon.powerlah;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,11 +30,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+
 public class MapsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
@@ -58,6 +63,9 @@ public class MapsActivity extends AppCompatActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
+    // ArrayList of Charging Stations.
+    private ArrayList<ChargingStationData> ChargingStationList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,15 +88,6 @@ public class MapsActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -121,6 +120,12 @@ public class MapsActivity extends AppCompatActivity
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        // Create all markers.
+        retrieveChargingStationData(mMap);
+
+        // Set a listener for marker click.
+        mMap.setOnMarkerClickListener(this);
     }
 
     private void getLocationPermission() {
@@ -198,6 +203,59 @@ public class MapsActivity extends AppCompatActivity
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+
+    public void retrieveChargingStationData(GoogleMap googleMap) {
+        ChargingStationList = new ArrayList<>();
+        ChargingStationDataManager csdm = new ChargingStationDataManager(this);
+        csdm.createDatabase();
+        csdm.open();
+        Cursor cursor = csdm.retrieveData();
+        if (cursor.moveToFirst()) {
+            do {
+                ChargingStationData c = new ChargingStationData();
+                c.setIndex(Integer.parseInt(cursor.getString(cursor.getColumnIndex("_id"))));
+                c.setName(cursor.getString(cursor.getColumnIndex("Name")));
+                c.setInfo(cursor.getString(cursor.getColumnIndex("Info")));
+                c.setZip(Integer.parseInt(cursor.getString(cursor.getColumnIndex("Zip"))));
+                c.setLatitude(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Latitude"))));
+                c.setLongitude(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Longitude"))));
+                c.setChargers(Integer.parseInt(cursor.getString(cursor.getColumnIndex("Chargers"))));
+//                c.setChargers(20);
+                createMarker(googleMap, c.getLatitude(), c.getLongitude(), c.getChargers() + " " + c.getName(), c.getInfo() + " (S)" + c.getZip());
+                ChargingStationList.add(c);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+    }
+
+    public Marker createMarker(GoogleMap googleMap, double latitude, double longitude, String title, String snippet) {
+        return googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .title(title)
+                .snippet(snippet));
+    }
+
+    /* Called when the user clicks a marker. */
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        // Retrieve the data from the marker.
+//        Integer clickCount = (Integer) marker.getTag();
+//
+//        // Check if a click count was set, then display the click count.
+//        if (clickCount != null) {
+//            clickCount = clickCount + 1;
+//            marker.setTag(clickCount);
+//            Toast.makeText(this, marker.getTitle() + " has been clicked " + clickCount + " times.",
+//                    Toast.LENGTH_SHORT).show();
+//        }
+
+        // Return false to indicate that we have not consumed the event and that we wish for the default
+        // behaviour to occur (which is for the camera to move such that the marker is centered
+        // and for the marker's info window to open, if it has one.
+        return false;
     }
 
     @Override
