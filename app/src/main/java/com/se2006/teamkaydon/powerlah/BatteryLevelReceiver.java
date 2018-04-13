@@ -30,11 +30,11 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
             charging = false;
         }
 
-        checkBatt(context,charging);
+        checkBatt(context);
     }
 
 
-    public void checkBatt(Context context, Boolean charging){
+    public void checkBatt(Context context){
         Intent intentBatt = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int curLevel = intentBatt.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
         Intent notify = new Intent(context, MapsActivity.class);
