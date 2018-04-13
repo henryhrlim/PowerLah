@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -56,8 +57,8 @@ public class MapsActivity extends AppCompatActivity
 
     // A default location (Sydney, Australia) and default zoom to use when
     // location permission is not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
-    private static final int DEFAULT_ZOOM = 17;
+    private final LatLng mDefaultLocation = new LatLng(1.3439166, 103.7540051);
+    private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
 
@@ -71,6 +72,9 @@ public class MapsActivity extends AppCompatActivity
 
     // ArrayList of Charging Stations.
     private ArrayList<ChargingStationData> ChargingStationList;
+
+    // Handler to check battery level.
+    private Handler batteryHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,10 @@ public class MapsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Check battery level every minute.
+        batteryHandler.postDelayed(checkBatteryThread, 60000);
     }
 
     /**
@@ -228,7 +236,6 @@ public class MapsActivity extends AppCompatActivity
                 c.setLatitude(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Latitude"))));
                 c.setLongitude(Double.parseDouble(cursor.getString(cursor.getColumnIndex("Longitude"))));
                 c.setChargers(Integer.parseInt(cursor.getString(cursor.getColumnIndex("Chargers"))));
-//                c.setChargers(20);
                 createMarker(googleMap,c);
                 ChargingStationList.add(c);
             } while (cursor.moveToNext());
@@ -251,11 +258,26 @@ public class MapsActivity extends AppCompatActivity
         return m;
     }
 
+    private Runnable checkBatteryThread = new Runnable() {
+        public void run() {
+            if (BatteryLevelReceiver.checkBatt(MapsActivity.this)) {
+                // If notified, check again in 30 minutes.
+                System.out.println("30 mins");
+                batteryHandler.postDelayed(this, 1800000);
+            }
+            else {
+                // If not notified, check again in 1 minute.
+                System.out.println("1 min");
+                batteryHandler.postDelayed(this, 60000);
+            }
+        }
+    };
+
     /* Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(Marker marker) {
         //Retrieve the data from the marker.
-        String stationIndex = (String) marker.getTag();
+//        String stationIndex = (String) marker.getTag();
 
         //Location.distanceBetween();
         //if()
