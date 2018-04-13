@@ -71,6 +71,7 @@ public class MapsActivity extends AppCompatActivity
 
     // ArrayList of Charging Stations.
     private ArrayList<ChargingStationData> ChargingStationList;
+    private boolean firstClick = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,16 +239,17 @@ public class MapsActivity extends AppCompatActivity
 
     public Marker createMarker(GoogleMap googleMap, ChargingStationData c) {
         int stationIndex = c.getIndex();
+        String sStationIndex = String.valueOf(stationIndex);
         double latitude = c.getLatitude();
         double longitude = c.getLongitude();
-        String title = c.getName();
+        String title = stationIndex + " " + c.getName();
         String snippet = c.getInfo() + " (S)" + c.getZip();
         Marker m = googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .anchor(0.5f, 0.5f)
                 .title(title)
                 .snippet(snippet));
-        m.setTag(stationIndex);
+        m.setTag(sStationIndex);
         return m;
     }
 
@@ -256,6 +258,18 @@ public class MapsActivity extends AppCompatActivity
     public boolean onMarkerClick(Marker marker) {
         //Retrieve the data from the marker.
         String stationIndex = (String) marker.getTag();
+
+        if(firstClick){
+            firstClick = false;
+        }
+        else{
+            firstClick = true;
+            Intent intent = new Intent(MapsActivity.this, PortableChargerActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("stationIndex", stationIndex);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
 
         //Location.distanceBetween();
         //if()
