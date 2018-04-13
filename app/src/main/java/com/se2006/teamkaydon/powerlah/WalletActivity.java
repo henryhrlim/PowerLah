@@ -33,7 +33,7 @@ public class WalletActivity extends AppCompatActivity {
     FirebaseUser user = auth.getCurrentUser();
     String uid = user.getUid();
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    final DatabaseReference mWalletRef = mRootRef.child("chargingstation").child(uid);
+    final DatabaseReference mWalletRef = mRootRef.child("users").child(uid);
 
 
     @Override

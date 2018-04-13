@@ -279,7 +279,7 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public boolean onMarkerClick(Marker marker) {
         //Retrieve the data from the marker.
-//        String stationIndex = (String) marker.getTag();
+        String stationIndex = (String) marker.getTag();
 
         if(firstClick){
             firstClick = false;
