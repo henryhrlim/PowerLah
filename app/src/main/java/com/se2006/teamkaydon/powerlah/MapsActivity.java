@@ -276,6 +276,8 @@ public class MapsActivity extends AppCompatActivity
     /* Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(Marker marker) {
+        startActivity(new Intent(MapsActivity.this, TimerActivity.class));
+
         //Retrieve the data from the marker.
 //        String stationIndex = (String) marker.getTag();
 
@@ -286,7 +288,7 @@ public class MapsActivity extends AppCompatActivity
         // Return false to indicate that we have not consumed the event and that we wish for the default
         // behaviour to occur (which is for the camera to move such that the marker is centered
         // and for the marker's info window to open, if it has one.
-        return false;
+        return true;
     }
 
     @Override

@@ -8,10 +8,14 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
-        android:layout_width="383dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -51,8 +55,6 @@
             android:id="@+id/startButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/startButtonText"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,8 +68,6 @@
             android:id="@+id/stopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/stopButtonText"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
