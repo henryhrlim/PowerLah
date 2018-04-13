@@ -53,10 +53,10 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".WalletActivity"
-            android:parentActivityName=".MapsActivity"></activity>
+            android:parentActivityName=".MapsActivity" />
         <activity
             android:name=".BatteryActivity"
-            android:parentActivityName=".MapsActivity"></activity>
+            android:parentActivityName=".MapsActivity" />
 
         <receiver android:name=".BatteryLevelReceiver">
             <intent-filter>
@@ -69,8 +69,11 @@
 
         <activity
             android:name=".PaymentActivity"
-            android:parentActivityName=".MapsActivity"></activity>
-        <activity android:name=".PortableChargerActivity"></activity>
+            android:parentActivityName=".MapsActivity" />
+        <activity android:name=".PortableChargerActivity" />
+        <activity
+            android:name=".TimerActivity"
+            android:parentActivityName=".MapsActivity"/>
     </application>
 
 </manifest>
