@@ -1,7 +1,6 @@
 package com.se2006.teamkaydon.powerlah;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import android.app.Application;
 import android.app.Notification;
@@ -12,9 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.widget.Button;
-import android.widget.Toast;
 
 public class TimerApp extends Application {
 
@@ -31,7 +27,8 @@ public class TimerApp extends Application {
     public static String timerText;
 
     public static NotificationManager notificationManager;
-    public static NotificationCompat.Builder n;
+    public static Notification.Builder n24;
+    public static NotificationCompat.Builder n26;
 
     @Override
     public void onCreate() {
@@ -39,15 +36,9 @@ public class TimerApp extends Application {
 
         timerAppInstance = this;
 
-//        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
-        initChannels(this);
+        initializeNotificationChannel(this);
     }
 
-    public void afficher() {
-        Toast.makeText(getBaseContext(), "x", Toast.LENGTH_LONG).show();
-        handler.postDelayed(runnable,1000);
-    }
 
     public static void startTimer() {
         startTime = SystemClock.uptimeMillis();
@@ -73,24 +64,34 @@ public class TimerApp extends Application {
 
             if (seconds == 5) {
 //            if((minutes % 60 == 0 || minutes % 60 == 30) && minutes != 0){
-                n = new NotificationCompat.Builder(timerAppInstance, "test")
-                        .setContentTitle("Power(full)")
-                        .setContentText("You have borrowed the charger for " + minutes + " minutes.")
-                        .setBadgeIconType(R.mipmap.ic_launcher)
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setDefaults(Notification.DEFAULT_ALL)
-                        .setPriority(NotificationManager.IMPORTANCE_HIGH);
-                notificationManager.notify(1, n.build());
+                if (Build.VERSION.SDK_INT < 26) {
+                    n24 = new Notification.Builder(timerAppInstance)
+                            .setContentTitle("Power(full)")
+                            .setContentText("You have borrowed the charger for " + minutes + " minutes.")
+                            .setSmallIcon(R.mipmap.ic_launcher_round)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setPriority(Notification.PRIORITY_MAX);
+                    notificationManager.notify(1, n24.build());
+                }
+                else {
+                    n26 = new NotificationCompat.Builder(timerAppInstance, "test")
+                            .setContentTitle("Power(full)")
+                            .setContentText("You have borrowed the charger for " + minutes + " minutes.")
+                            .setBadgeIconType(R.mipmap.ic_launcher)
+                            .setSmallIcon(R.mipmap.ic_launcher_round)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setPriority(4);
+                    notificationManager.notify(1, n26.build());
+                }
             }
             MapsActivity.timer.setText(timerText);
             handler.postDelayed(runnable, 0);
         }
     };
 
-    public void initChannels(Context context) {
+    public void initializeNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT < 26) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            return;
         } else {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel channel = new NotificationChannel("test", "Testing Channel", NotificationManager.IMPORTANCE_HIGH);
