@@ -15,7 +15,6 @@ import android.support.v4.app.NotificationCompat;
 public class TimerApp extends Application {
 
     public static TimerApp timerAppInstance;
-    private SimpleDateFormat dateFormat;
     public static double startTime = 0;
     public static double timeInMilliseconds = 0;
     public static double timeSwapBuff = 0;
@@ -48,6 +47,7 @@ public class TimerApp extends Application {
     public static void stopTimer() {
         handler.removeCallbacks(runnable);
         MapsActivity.timer.setText("");
+        MapsActivity.timer.setAlpha(0);
     }
 
     public static Handler handler = new Handler();
@@ -85,6 +85,7 @@ public class TimerApp extends Application {
                 }
             }
             MapsActivity.timer.setText(timerText);
+            MapsActivity.timer.setAlpha(1);
             handler.postDelayed(runnable, 0);
         }
     };
