@@ -16,8 +16,6 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 public class BatteryLevelReceiver extends BroadcastReceiver {
-//    Boolean charging = false;
-//    private double startTime = 0;
     public static NotificationManager notificationManager;
     public static NotificationCompat.Builder n;
 
@@ -39,8 +37,8 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
 
     public static boolean checkBatt(Context context){
         initializeNotificationChannel(context);
-        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Intent batteryStatus = context.registerReceiver(null, ifilter);
+        IntentFilter iFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = context.registerReceiver(null, iFilter);
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
         Intent intentBatteryChanged = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));

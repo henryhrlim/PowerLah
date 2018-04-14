@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -77,6 +78,11 @@ public class MapsActivity extends AppCompatActivity
     // Handler to check battery level.
     private Handler batteryHandler = new Handler();
 
+    public static Button timer;
+
+    private Intent intentMarker;
+    private Bundle bundleMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,9 +115,11 @@ public class MapsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         // Check battery level every minute.
         batteryHandler.postDelayed(checkBatteryThread, 60000);
+
+        timer = (Button) findViewById(R.id.timerButton);
+
     }
 
     /**
@@ -278,20 +286,24 @@ public class MapsActivity extends AppCompatActivity
     /* Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(Marker marker) {
+//        startActivity(new Intent(MapsActivity.this, TimerActivity.class));
+
+
         //Retrieve the data from the marker.
         String stationIndex = (String) marker.getTag();
 
-        if(firstClick){
-            firstClick = false;
-        }
-        else{
-            firstClick = true;
-            Intent intent = new Intent(MapsActivity.this, PortableChargerActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("stationIndex", stationIndex);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
+//        if(firstClick){
+//            firstClick = false;
+            intentMarker = new Intent(MapsActivity.this, PortableChargerActivity.class);
+            bundleMarker = new Bundle();
+            bundleMarker.putString("stationIndex", stationIndex);
+            intentMarker.putExtras(bundleMarker);
+            startActivity(intentMarker);
+//        }
+//        else{
+//            firstClick = true;
+//            startActivity(intentMarker);
+//        }
 
         //Location.distanceBetween();
         //if()
@@ -300,7 +312,7 @@ public class MapsActivity extends AppCompatActivity
         // Return false to indicate that we have not consumed the event and that we wish for the default
         // behaviour to occur (which is for the camera to move such that the marker is centered
         // and for the marker's info window to open, if it has one.
-        return false;
+        return true;
     }
 
     @Override

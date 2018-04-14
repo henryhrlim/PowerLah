@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +65,7 @@ public class PortableChargerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BorrowPortable(mStationRef);
+                TimerApp.timerAppInstance.startTimer();
 
             }
         });
@@ -72,6 +74,7 @@ public class PortableChargerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ReturnPortable(mStationRef);
+                TimerApp.timerAppInstance.stopTimer();
             }
         });
     }
@@ -82,11 +85,13 @@ public class PortableChargerActivity extends AppCompatActivity {
         mStationRef.setValue(stationChargerAmt);
         borrowBtn.setVisibility(View.GONE);
         returnBtn.setVisibility(View.VISIBLE);
-        Intent intent = new Intent(PortableChargerActivity.this, TimerActivity.class);
+//        Intent intent = new Intent(PortableChargerActivity.this, TimerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Status", "Borrow");
-        intent.putExtras(bundle);
-        startActivity(intent);
+        Toast.makeText(getBaseContext(), "Borrowed!", Toast.LENGTH_LONG).show();
+//        App.startTimer();
+//        intent.putExtras(bundle);
+//        startActivity(intent);
     }
 
     public void ReturnPortable(DatabaseReference mStationRef){
@@ -94,10 +99,12 @@ public class PortableChargerActivity extends AppCompatActivity {
         mStationRef.setValue(stationChargerAmt);
         returnBtn.setVisibility(View.GONE);
         borrowBtn.setVisibility(View.VISIBLE);
-        Intent intent = new Intent(PortableChargerActivity.this, TimerActivity.class);
+//        Intent intent = new Intent(PortableChargerActivity.this, TimerActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("Status", "Return");
-        intent.putExtras(bundle);
-        startActivity(intent);
+        Toast.makeText(getBaseContext(), "Returned!", Toast.LENGTH_LONG).show();
+//        com.se2006.teamkaydon.powerlah.App.stopTimer();
+//        intent.putExtras(bundle);
+//        startActivity(intent);
     }
 }
