@@ -10,28 +10,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 public class BatteryLevelReceiver extends BroadcastReceiver {
     public static NotificationManager notificationManager;
-    public static NotificationCompat.Builder n;
+    public static Notification.Builder n24;
+    public static NotificationCompat.Builder n26;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-//        if(intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)){
-//            Toast.makeText(context, "Device is charging", Toast.LENGTH_SHORT).show();
-//            charging = true;
-//        }
-//        else{
-//            intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED);
-//            Toast.makeText(context, "Device is not charging", Toast.LENGTH_SHORT).show();
-//            charging = false;
-//        }
-//
-//        checkBatt(context);
+
     }
 
 
@@ -47,15 +35,27 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
         if((!isCharging) && (curLevel <= BatteryActivity.getThreshold())) {
             Intent notify = new Intent(context, MapsActivity.class);
             PendingIntent pIntent = PendingIntent.getActivity(context,0, notify,0);
-            n = new NotificationCompat.Builder(context, "battery")
-                    .setContentTitle("Battery Low!")
-                    .setContentText("Battery " + curLevel + "%, would you like to open Power(full) to borrow a charger?")
-                    .setBadgeIconType(R.mipmap.ic_launcher)
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setContentIntent(pIntent)
-                    .setPriority(NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.notify(2, n.build());
+            if (Build.VERSION.SDK_INT < 26) {
+                n24 = new Notification.Builder(context)
+                        .setContentTitle("Battery Low!")
+                        .setContentText("Battery " + curLevel + "%, would you like to open Power(full) to borrow a charger?")
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setContentIntent(pIntent)
+                        .setPriority(Notification.PRIORITY_MAX);
+                notificationManager.notify(2, n24.build());
+            }
+            else {
+                n26 = new NotificationCompat.Builder(context, "battery")
+                        .setContentTitle("Battery Low!")
+                        .setContentText("Battery " + curLevel + "%, would you like to open Power(full) to borrow a charger?")
+                        .setBadgeIconType(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setContentIntent(pIntent)
+                        .setPriority(NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.notify(2, n26.build());
+            }
             return true;
         }
         return false;
@@ -63,11 +63,13 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
 
     public static void initializeNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT < 26) {
-            return;
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel("battery", "Battery Level Notification Channel", NotificationManager.IMPORTANCE_HIGH);
-        channel.setDescription("Notifies the user when the battery level is low.");
-        notificationManager.createNotificationChannel(channel);
+        else {
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel("battery", "Battery Level Notification Channel", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Notifies the user when the battery level is low.");
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

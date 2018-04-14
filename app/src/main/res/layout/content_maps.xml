@@ -22,7 +22,7 @@
         android:layout_marginBottom="20dp"
         android:paddingStart="@dimen/margin_10"
         android:paddingEnd="@dimen/margin_10"
-        android:alpha="1"
+        android:alpha="0"
         android:background="@color/colorPrimaryDark"
         android:text=""
         android:textColor="@color/white"
