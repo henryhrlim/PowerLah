@@ -286,7 +286,11 @@ public class MapsActivity extends AppCompatActivity
     /* Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(Marker marker) {
+<<<<<<< HEAD
 //        startActivity(new Intent(MapsActivity.this, TimerActivity.class));
+=======
+        startActivity(new Intent(MapsActivity.this, TimerActivity.class));
+>>>>>>> af9584cbe52136a78850fac929ffe40b99233a9a
 
         //Retrieve the data from the marker.
         String stationIndex = (String) marker.getTag();
