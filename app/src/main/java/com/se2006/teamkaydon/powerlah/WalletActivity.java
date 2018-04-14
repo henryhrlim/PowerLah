@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.se2006.teamkaydon.powerlah.FirebaseManager;
+
 public class WalletActivity extends AppCompatActivity {
 
     private TextView currentAmount;
@@ -29,12 +31,7 @@ public class WalletActivity extends AppCompatActivity {
     private Float walletValue;
     private Float totalValue;
 
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
-    String uid = user.getUid();
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    final DatabaseReference mWalletRef = mRootRef.child("users").child(uid);
-
+    FirebaseDAO firebase = new FirebaseManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +54,11 @@ public class WalletActivity extends AppCompatActivity {
 
 
         //display current wallet amount
-
-
-        mWalletRef.addValueEventListener(new ValueEventListener() {
+        firebase.getWalletValue().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 walletValue = dataSnapshot.getValue(Float.class);
-                String sWallet = Float.toString(walletValue);
-                currentAmount.setText(sWallet);
+
             }
 
             @Override
@@ -72,6 +66,7 @@ public class WalletActivity extends AppCompatActivity {
 
             }
         });
+        currentAmount.setText(String.valueOf(walletValue));
 
 
         payButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +83,6 @@ public class WalletActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
 
                 totalValue = walletValue + Float.parseFloat(amt);
-
             }
         });
 
@@ -99,12 +93,12 @@ public class WalletActivity extends AppCompatActivity {
 
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK){
-                mWalletRef.setValue(totalValue);
+                firebase.setWalletValue(totalValue);
                 Toast.makeText(WalletActivity.this, "Payment successful!", Toast.LENGTH_SHORT).show();
             }
             else {
                 Toast.makeText(WalletActivity.this, "Payment failed!", Toast.LENGTH_SHORT).show();
             }
         }
-    }//onActivityResult
+    }
 }
