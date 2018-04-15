@@ -66,7 +66,7 @@ public class WalletActivity extends AppCompatActivity {
 
             }
         });
-        currentAmount.setText(String.valueOf(walletValue));
+        currentAmount.setText("$" + String.valueOf(walletValue));
 
 
         payButton.setOnClickListener(new View.OnClickListener() {
