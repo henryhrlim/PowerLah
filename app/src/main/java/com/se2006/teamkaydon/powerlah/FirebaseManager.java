@@ -9,10 +9,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseManager implements FirebaseDAO{
+
+    @Override
+    public FirebaseAuth getInstance(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        return auth;
+    }
+
     @Override
     public FirebaseUser getCurrentUser() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        FirebaseUser user = getInstance().getCurrentUser();
         return user;
     }
 
@@ -54,6 +60,20 @@ public class FirebaseManager implements FirebaseDAO{
     public void setStationChargerAmt(String stationIndex, int stationChargerAmt) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("chargingstation").child(stationIndex);
         ref.setValue(stationChargerAmt);
+    }
+
+    @Override
+    public DatabaseReference getBatteryThreshold(){
+        String uid = getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("batt");
+        return ref;
+    }
+
+    @Override
+    public void setBatteryThreshold(int batteryThreshold){
+        String uid = getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("batt");
+        ref.setValue(batteryThreshold);
     }
 
 }

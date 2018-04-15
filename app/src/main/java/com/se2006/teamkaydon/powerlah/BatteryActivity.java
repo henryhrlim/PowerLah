@@ -6,11 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 public class BatteryActivity extends AppCompatActivity {
-    private static int battThreshold = 10;             //default is 10
+    private static int battThreshold;             //default is 10
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,23 +24,43 @@ public class BatteryActivity extends AppCompatActivity {
         Toolbar myChildToolbar =
                 (Toolbar) findViewById(R.id.battery_toolbar);
         setSupportActionBar(myChildToolbar);
-
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
-
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
-        SeekBar seekBar;
+
+
+        final SeekBar seekBar;
+        final TextView currentThreshold;
         seekBar = findViewById(R.id.seekBarBatt);
+        currentThreshold = findViewById(R.id.currentThreshold);
 
         seekBar.setMax(100);
+        final FirebaseDAO firebase = new FirebaseManager();
+        firebase.getBatteryThreshold().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                battThreshold = dataSnapshot.getValue(int.class);
+                seekBar.setProgress(battThreshold);
+                currentThreshold.setText(battThreshold + "%");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 battThreshold = i;
+                currentThreshold.setText(battThreshold + "%");
+                firebase.setBatteryThreshold(battThreshold);
             }
 
             @Override

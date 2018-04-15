@@ -26,17 +26,15 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
     private ProgressBar progressBar;
-    private Button btnSignup, btnLogin, btnReset;
     private UserData u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        final FirebaseDAO firebase = new FirebaseManager();
 
-        if (auth.getCurrentUser() != null) {
+        if (firebase.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MapsActivity.class));
             finish();
         }
@@ -50,12 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnReset = (Button) findViewById(R.id.btn_reset_password);
-
-        //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        Button btnSignup = (Button) findViewById(R.id.btn_signup);
+        Button btnLogin = (Button) findViewById(R.id.btn_login);
+        Button btnReset = (Button) findViewById(R.id.btn_reset_password);
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 //authenticate user
-                auth.signInWithEmailAndPassword(email, password)
+                firebase.getInstance().signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

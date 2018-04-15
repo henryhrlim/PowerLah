@@ -28,7 +28,8 @@
         <activity android:name=".ResetPasswordActivity" />
         <activity
             android:name=".SettingsActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MapsActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -54,9 +55,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".WalletActivity"
+            android:label="Wallet"
             android:parentActivityName=".MapsActivity" />
         <activity
             android:name=".BatteryActivity"
+            android:label="Battery Threshold"
             android:parentActivityName=".MapsActivity" />
 
         <receiver android:name=".BatteryLevelReceiver">
@@ -70,9 +73,8 @@
         <activity
             android:name=".PaymentActivity"
             android:parentActivityName=".MapsActivity" />
-        <activity android:name=".PortableChargerActivity" />
-        <!--<activity-->
-            <!--android:name=".TimerActivity" />-->
+        <activity android:name=".PortableChargerActivity"
+            android:label="Borrow/return Portable Charger"/>
 
     </application>
 
