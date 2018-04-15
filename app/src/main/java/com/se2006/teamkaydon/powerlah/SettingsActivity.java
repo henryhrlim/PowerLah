@@ -1,13 +1,11 @@
 package com.se2006.teamkaydon.powerlah;
 
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,10 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button changeEmail;
-    private Button changePassword;
-    private Button sendEmail;
-    private Button remove;
+    private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
+            changeEmail, changePassword, sendEmail, remove, signOut;
 
     private EditText oldEmail, newEmail, password, newPassword;
     private ProgressBar progressBar;
@@ -38,23 +34,41 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar myChildToolbar =
                 (Toolbar) findViewById(R.id.settings_toolbar);
         setSupportActionBar(myChildToolbar);
+
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
+
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
-        FirebaseDAO firebase = new FirebaseManager();
-        final FirebaseUser user = firebase.getCurrentUser();
+        //get firebase auth instance
+        auth = FirebaseAuth.getInstance();
 
-        Button btnChangeEmail = (Button) findViewById(R.id.change_email_button);
-        Button btnChangePassword = (Button) findViewById(R.id.change_password_button);
-        Button btnSendResetEmail = (Button) findViewById(R.id.sending_pass_reset_button);
-        Button btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
+        //get current user
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
+
+        btnChangeEmail = (Button) findViewById(R.id.change_email_button);
+        btnChangePassword = (Button) findViewById(R.id.change_password_button);
+        btnSendResetEmail = (Button) findViewById(R.id.sending_pass_reset_button);
+        btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
         changeEmail = (Button) findViewById(R.id.changeEmail);
         changePassword = (Button) findViewById(R.id.changePass);
         sendEmail = (Button) findViewById(R.id.send);
         remove = (Button) findViewById(R.id.remove);
-        Button signOut = (Button) findViewById(R.id.sign_out);
+        signOut = (Button) findViewById(R.id.sign_out);
 
         oldEmail = (EditText) findViewById(R.id.old_email);
         newEmail = (EditText) findViewById(R.id.new_email);
@@ -239,13 +253,22 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

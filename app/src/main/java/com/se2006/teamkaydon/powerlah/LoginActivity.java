@@ -23,10 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
-    private FirebaseAuth auth;
-    private DatabaseReference mDatabase;
     private ProgressBar progressBar;
-    private UserData u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

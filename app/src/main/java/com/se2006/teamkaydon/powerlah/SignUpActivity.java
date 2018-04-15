@@ -116,10 +116,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void onAuthSuccess(FirebaseUser user){
         // Write new user
-        String uid = user.getUid();
-        DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference mUserRef = mRootRef.child("users");
-
-        mUserRef.child(uid).setValue(0.00);
+        FirebaseDAO firebase = new FirebaseManager();
+        firebase.setNewUser(user);
     }
 }

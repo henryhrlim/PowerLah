@@ -23,6 +23,17 @@ public class FirebaseManager implements FirebaseDAO{
     }
 
     @Override
+    public void setNewUser(FirebaseUser user){
+        String uid = user.getUid();
+        DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("wallet");
+        DatabaseReference battRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("batt");
+        DatabaseReference borrowingRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("borrowing");
+        walletRef.setValue(0);
+        battRef.setValue(15);
+        borrowingRef.setValue(false);
+    }
+
+    @Override
     public DatabaseReference getWalletValue() {
         String uid = getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("wallet");
@@ -30,7 +41,7 @@ public class FirebaseManager implements FirebaseDAO{
     }
 
     @Override
-    public void setWalletValue(Float walletValue){
+    public void setWalletValue(int walletValue){
         String uid = getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("wallet");
         ref.setValue(walletValue);

@@ -33,7 +33,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.645" />
 
     <Button
         android:id="@+id/return_button"
@@ -45,7 +46,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.647" />
 
     <TextView
         android:id="@+id/charger_amt"
@@ -53,14 +55,15 @@
         android:layout_height="86dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text=""
+        android:fontFamily="@font/press_start_2p"
+        android:text="4"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/borrow_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.73" />
 
     <TextView
         android:id="@+id/payment_amt"
@@ -68,12 +71,12 @@
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="Will be deducted from your wallet"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/return_button"
-        app:layout_constraintVertical_bias="0.145" />
+        app:layout_constraintVertical_bias="0.411" />
 
 </android.support.constraint.ConstraintLayout>

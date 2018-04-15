@@ -116,9 +116,9 @@ public class PortableChargerActivity extends AppCompatActivity {
         firebase.getWalletValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Float currentValue = dataSnapshot.getValue(Float.class);
-                double finalValue = currentValue - amt;
-                firebase.setWalletValue(Float.valueOf(String.valueOf(finalValue)));
+                int currentValue = dataSnapshot.getValue(int.class);
+                int finalValue = currentValue - (int)amt;
+                firebase.setWalletValue(finalValue);
             }
 
             @Override

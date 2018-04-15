@@ -9,8 +9,9 @@ import com.google.firebase.database.DatabaseReference;
 public interface FirebaseDAO {
     FirebaseAuth getInstance();
     FirebaseUser getCurrentUser();
+    void setNewUser(FirebaseUser user);
     DatabaseReference getWalletValue();
-    void setWalletValue(Float walletValue);
+    void setWalletValue(int walletValue);
     DatabaseReference getBorrowingStatus();
     void setBorrowingStatus(boolean borrowing);
     DatabaseReference getStationChargerAmt(String stationIndex);

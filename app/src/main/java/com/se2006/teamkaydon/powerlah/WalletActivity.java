@@ -30,8 +30,8 @@ public class WalletActivity extends AppCompatActivity {
     private TextView currentAmount;
     private EditText payAmount;
     private Button payButton;
-    private Float walletValue;
-    private Float totalValue;
+    private int walletValue;
+    private int totalValue;
 
     FirebaseDAO firebase = new FirebaseManager();
 
@@ -59,8 +59,8 @@ public class WalletActivity extends AppCompatActivity {
         firebase.getWalletValue().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                walletValue = dataSnapshot.getValue(Float.class);
-
+                walletValue = dataSnapshot.getValue(int.class);
+                currentAmount.setText("$" + String.valueOf(walletValue));
             }
 
             @Override
@@ -68,7 +68,7 @@ public class WalletActivity extends AppCompatActivity {
 
             }
         });
-        currentAmount.setText("$" + String.valueOf(walletValue));
+
 
 
         payButton.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class WalletActivity extends AppCompatActivity {
                 Intent intent = new Intent(WalletActivity.this, PaymentActivity.class);
                 startActivityForResult(intent, 0);
 
-                totalValue = walletValue + Float.parseFloat(amt);
+                totalValue = walletValue + Integer.valueOf(amt);
             }
         });
 

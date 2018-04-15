@@ -304,14 +304,13 @@ public class MapsActivity extends AppCompatActivity
         //Retrieve the data from the marker.
         String stationIndex = (String) marker.getTag();
 
-        getDeviceLocation();
         Location.distanceBetween(mLastKnownLocation.getLatitude(),
                 mLastKnownLocation.getLongitude(),
                 marker.getPosition().latitude,
                 marker.getPosition().longitude,
                 distance);
-
-        if (distance[0] <= 200) {
+        //TODO: change distance threshold back to reasonable distance when an appropriate marker location is set at SWLAB3
+        if (distance[0] <= 5000) {
             closeEnough = true;
         }
 
@@ -331,7 +330,7 @@ public class MapsActivity extends AppCompatActivity
         else {
             firstClick = true;
             Toast.makeText(this, "You are more than 200m away from the charging station and thus cannot borrow a charger.", Toast.LENGTH_LONG).show();
-            return true;
+            return false;
         }
 
         // Return false to indicate that we have not consumed the event and that we wish for the default
