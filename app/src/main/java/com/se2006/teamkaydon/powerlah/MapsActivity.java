@@ -396,7 +396,7 @@ public class MapsActivity extends AppCompatActivity
             startActivity(new Intent(MapsActivity.this, BatteryActivity.class));
 
         } else if (id == R.id.nav_manage) {
-            startActivity(new Intent(MapsActivity.this,TimerActivity.class));
+//            startActivity(new Intent(MapsActivity.this,TimerActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
