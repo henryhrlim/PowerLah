@@ -33,9 +33,11 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
         int curLevel = intentBatteryChanged.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
 
         if((!isCharging) && (curLevel <= BatteryActivity.getThreshold())) {
+//        if((!isCharging) && (curLevel <= 20)) {
             Intent notify = new Intent(context, MapsActivity.class);
             PendingIntent pIntent = PendingIntent.getActivity(context,0, notify,0);
             if (Build.VERSION.SDK_INT < 26) {
+//                System.out.println(24);
                 n24 = new Notification.Builder(context)
                         .setContentTitle("Battery Low!")
                         .setContentText("Battery " + curLevel + "%, would you like to open Power(full) to borrow a charger?")
@@ -46,6 +48,7 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
                 notificationManager.notify(2, n24.build());
             }
             else {
+//                System.out.println(26);
                 n26 = new NotificationCompat.Builder(context, "battery")
                         .setContentTitle("Battery Low!")
                         .setContentText("Battery " + curLevel + "%, would you like to open Power(full) to borrow a charger?")
