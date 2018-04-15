@@ -1,4 +1,4 @@
-package com.se2006.teamkaydon.powerlah;
+package com.se2006.teamkaydon.powerlah.Control;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,6 +11,10 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+
+import com.se2006.teamkaydon.powerlah.Boundary.BatteryActivity;
+import com.se2006.teamkaydon.powerlah.Boundary.MapsActivity;
+import com.se2006.teamkaydon.powerlah.R;
 
 public class BatteryLevelReceiver extends BroadcastReceiver {
     public static NotificationManager notificationManager;

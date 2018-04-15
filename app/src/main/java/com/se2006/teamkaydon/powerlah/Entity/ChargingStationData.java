@@ -1,4 +1,4 @@
-package com.se2006.teamkaydon.powerlah;
+package com.se2006.teamkaydon.powerlah.Entity;
 
 public class ChargingStationData {
     public int index;

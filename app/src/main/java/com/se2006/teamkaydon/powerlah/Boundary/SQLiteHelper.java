@@ -1,4 +1,4 @@
-package com.se2006.teamkaydon.powerlah;
+package com.se2006.teamkaydon.powerlah.Boundary;
 
 import android.content.Context;
 import android.database.SQLException;

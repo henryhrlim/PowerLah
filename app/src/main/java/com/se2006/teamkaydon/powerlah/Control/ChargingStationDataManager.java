@@ -1,4 +1,4 @@
-package com.se2006.teamkaydon.powerlah;
+package com.se2006.teamkaydon.powerlah.Control;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.se2006.teamkaydon.powerlah.Boundary.ChargingStationDAO;
+import com.se2006.teamkaydon.powerlah.Boundary.SQLiteHelper;
 
 import java.io.IOException;
 

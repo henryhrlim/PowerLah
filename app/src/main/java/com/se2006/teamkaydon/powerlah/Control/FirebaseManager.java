@@ -1,14 +1,12 @@
-package com.se2006.teamkaydon.powerlah;
+package com.se2006.teamkaydon.powerlah.Control;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.se2006.teamkaydon.powerlah.Boundary.FirebaseDAO;
 
-public class FirebaseManager implements FirebaseDAO{
+public class FirebaseManager implements FirebaseDAO {
 
     @Override
     public FirebaseAuth getInstance(){

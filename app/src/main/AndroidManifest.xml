@@ -13,23 +13,23 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <application
-        android:name="com.se2006.teamkaydon.powerlah.TimerApp"
+        android:name="com.se2006.teamkaydon.powerlah.Control.TimerApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".Boundary.SignUpActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Boundary.LoginActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".Boundary.ResetPasswordActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Boundary.SettingsActivity"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".MapsActivity"/>
+            android:parentActivityName=".Boundary.MapsActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,7 +42,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Boundary.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,19 +50,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapsActivity"
+            android:name=".Boundary.MapsActivity"
             android:label="@string/title_activity_maps2"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".WalletActivity"
+            android:name=".Boundary.WalletActivity"
             android:label="Wallet"
-            android:parentActivityName=".MapsActivity" />
+            android:parentActivityName=".Boundary.MapsActivity" />
         <activity
-            android:name=".BatteryActivity"
+            android:name=".Boundary.BatteryActivity"
             android:label="Battery Threshold"
-            android:parentActivityName=".MapsActivity" />
+            android:parentActivityName=".Boundary.MapsActivity" />
 
-        <receiver android:name=".BatteryLevelReceiver">
+        <receiver android:name=".Control.BatteryLevelReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
@@ -72,8 +72,8 @@
 
         <activity
             android:name=".PaymentActivity"
-            android:parentActivityName=".MapsActivity" />
-        <activity android:name=".PortableChargerActivity"
+            android:parentActivityName=".Boundary.MapsActivity" />
+        <activity android:name=".Boundary.PortableChargerActivity"
             android:label="Borrow/return Portable Charger"/>
 
     </application>
