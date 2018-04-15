@@ -281,14 +281,14 @@ public class MapsActivity extends AppCompatActivity
 
     private Runnable checkBatteryThread = new Runnable() {
         public void run() {
-                if (BatteryLevelReceiver.checkBatt(MapsActivity.this)) {
+            if (BatteryLevelReceiver.checkBatt(MapsActivity.this)) {
                 // If notified, check again in 30 minutes.
-                System.out.println("30 mins");
+//                System.out.println("30 mins");
                 batteryHandler.postDelayed(this, 1800000);
             }
             else {
                 // If not notified, check again in 1 minute.
-                System.out.println("1 min");
+//                System.out.println("1 min");
                 batteryHandler.postDelayed(this, 60000);
             }
         }
