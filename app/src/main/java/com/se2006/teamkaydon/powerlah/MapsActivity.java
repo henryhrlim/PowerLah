@@ -297,17 +297,29 @@ public class MapsActivity extends AppCompatActivity
     /* Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(Marker marker) {
-//        startActivity(new Intent(MapsActivity.this, TimerActivity.class));
 
+        float[] distance = {0,0,0};
+        boolean closeEnough = false;
 
         //Retrieve the data from the marker.
         String stationIndex = (String) marker.getTag();
+
+        getDeviceLocation();
+        Location.distanceBetween(mLastKnownLocation.getLatitude(),
+                mLastKnownLocation.getLongitude(),
+                marker.getPosition().latitude,
+                marker.getPosition().longitude,
+                distance);
+
+        if (distance[0] <= 200) {
+            closeEnough = true;
+        }
 
         if(firstClick){
             firstClick = false;
             return false;
         }
-        else{
+        else if (closeEnough){
             firstClick = true;
             intentMarker = new Intent(MapsActivity.this, PortableChargerActivity.class);
             bundleMarker = new Bundle();
@@ -316,10 +328,11 @@ public class MapsActivity extends AppCompatActivity
             startActivity(intentMarker);
             return true;
         }
-
-        //Location.distanceBetween();
-        //if()
-
+        else {
+            firstClick = true;
+            Toast.makeText(this, "You are more than 200m away from the charging station and thus cannot borrow a charger.", Toast.LENGTH_LONG).show();
+            return true;
+        }
 
         // Return false to indicate that we have not consumed the event and that we wish for the default
         // behaviour to occur (which is for the camera to move such that the marker is centered
