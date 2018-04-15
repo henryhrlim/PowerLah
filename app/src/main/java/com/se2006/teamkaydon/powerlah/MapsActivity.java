@@ -281,7 +281,7 @@ public class MapsActivity extends AppCompatActivity
 
     private Runnable checkBatteryThread = new Runnable() {
         public void run() {
-            if (BatteryLevelReceiver.checkBatt(MapsActivity.this)) {
+                if (BatteryLevelReceiver.checkBatt(MapsActivity.this)) {
                 // If notified, check again in 30 minutes.
                 System.out.println("30 mins");
                 batteryHandler.postDelayed(this, 1800000);
@@ -397,6 +397,7 @@ public class MapsActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 //            startActivity(new Intent(MapsActivity.this,TimerActivity.class));
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
