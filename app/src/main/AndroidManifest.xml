@@ -71,6 +71,9 @@
             android:name=".PaymentActivity"
             android:parentActivityName=".MapsActivity" />
         <activity android:name=".PortableChargerActivity" />
+        <!--<activity-->
+            <!--android:name=".TimerActivity" />-->
+
     </application>
 
 </manifest>
