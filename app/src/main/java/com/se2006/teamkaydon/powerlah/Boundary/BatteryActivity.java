@@ -16,15 +16,22 @@ import com.google.firebase.database.ValueEventListener;
 import com.se2006.teamkaydon.powerlah.Control.FirebaseManager;
 import com.se2006.teamkaydon.powerlah.R;
 
+/**
+ * Provides a battery threshold slider for users to change their battery
+ * percentage threshold which invokes the battery level notification,
+ */
 public class BatteryActivity extends AppCompatActivity {
-    private static int battThreshold;             //default is 10
-
+    private static int battThreshold;             //default is 10.
+    /**
+     * Creates battery threshold menu at the start of a BatteryActivity instance.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battery);
-        Toolbar myChildToolbar =
-                (Toolbar) findViewById(R.id.battery_toolbar);
+
+        Toolbar myChildToolbar = (Toolbar) findViewById(R.id.battery_toolbar);
         setSupportActionBar(myChildToolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
@@ -32,14 +39,15 @@ public class BatteryActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
 
-
         final SeekBar seekBar;
         final TextView currentThreshold;
         seekBar = findViewById(R.id.seekBarBatt);
         currentThreshold = findViewById(R.id.currentThreshold);
-
         seekBar.setMax(100);
+
         final FirebaseDAO firebase = new FirebaseManager();
+
+        // Event listener to check for changes in battery threshold for the user in firebase.
         firebase.getBatteryThreshold().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -54,10 +62,8 @@ public class BatteryActivity extends AppCompatActivity {
             }
         });
 
-
-
+        // Event listener to check for changes in the battery threshold slider
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 battThreshold = i;
@@ -66,9 +72,7 @@ public class BatteryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -79,6 +83,11 @@ public class BatteryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Returns back to MapsActivity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -89,6 +98,12 @@ public class BatteryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    /**
+     * Returns battThreshold
+     * @return
+     */
 
     public static int getThreshold(){
         return battThreshold;

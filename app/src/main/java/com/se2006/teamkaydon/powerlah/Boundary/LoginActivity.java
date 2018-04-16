@@ -18,6 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.se2006.teamkaydon.powerlah.Control.FirebaseManager;
 import com.se2006.teamkaydon.powerlah.R;
 
+/**
+ * Provides
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
@@ -29,12 +32,13 @@ public class LoginActivity extends AppCompatActivity {
 
         final FirebaseDAO firebase = new FirebaseManager();
 
+        // If user is already logged in then start MapsActivity instead.
         if (firebase.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MapsActivity.class));
             finish();
         }
 
-        // set the view now
+        // Set the view now.
         setContentView(R.layout.activity_login);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

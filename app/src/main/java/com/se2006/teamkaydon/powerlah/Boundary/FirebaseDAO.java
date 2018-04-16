@@ -1,11 +1,13 @@
 package com.se2006.teamkaydon.powerlah.Boundary;
 
-import android.provider.ContactsContract;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+/**
+ * Data Access Object that provides a list of functions for different classes to access
+ * data in firebase.
+ */
 public interface FirebaseDAO {
     FirebaseAuth getInstance();
     FirebaseUser getCurrentUser();

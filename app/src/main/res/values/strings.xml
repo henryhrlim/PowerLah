@@ -37,7 +37,17 @@
     <string name="timerVal">00:00</string>
     <string name="startButtonText">Start</string>
     <string name="stopButtonText">Stop</string>
-    <string name="paymentText"></string>
+
+    <!-- Strings for Portable Charger -->
+    <string name="borrowText">Borrow</string>
+    <string name="returnText">Return</string>
+    <string name="defaultText">error</string>
+    <string name="paymentText">Will be deducted from your wallet</string>
+    <string name="portableChargerText">Available chargers in this station: </string>
+
+    <!-- Strings for Battery Settings -->
+    <string name="batterySettingText">Set your battery threshold to receive Low Battery notification at your desired battery percentage</string>
+    <string name="currentBatterySettingText">Current battery threshold percentage: </string>
 
     <!-- Strings related to Settings -->
 

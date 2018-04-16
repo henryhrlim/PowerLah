@@ -24,6 +24,7 @@ public class PortableChargerActivity extends AppCompatActivity {
     private Button returnBtn;
     private TextView chargerAmt;
     private TextView paymentAmt;
+    private TextView title;
     private boolean borrowing;
     FirebaseDAO firebase = new FirebaseManager();
 
@@ -36,6 +37,8 @@ public class PortableChargerActivity extends AppCompatActivity {
         returnBtn = findViewById(R.id.return_button);
         chargerAmt = findViewById(R.id.charger_amt);
         paymentAmt = findViewById(R.id.payment_amt);
+        title = findViewById(R.id.textView5);
+        title.setText("Available chargers at " + MapsActivity.currentlySelectedMarker);
 
         paymentAmt.setVisibility(View.GONE);
         firebase.getBorrowingStatus().addListenerForSingleValueEvent(new ValueEventListener() {
@@ -92,6 +95,7 @@ public class PortableChargerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BorrowPortable(stationIndex);
+                borrowBtn.setVisibility(View.GONE);
             }
         });
 
@@ -100,11 +104,15 @@ public class PortableChargerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ReturnPortable(stationIndex, TimerApp.seconds);
                 TimerApp.timerAppInstance.stopTimer();
+                returnBtn.setVisibility(View.GONE);
             }
         });
     }
 
 
+    /**
+     * @param stationIndex
+     */
     public void BorrowPortable(String stationIndex){
 
         if(currentValue < 20){
@@ -117,22 +125,33 @@ public class PortableChargerActivity extends AppCompatActivity {
             stationChargerAmt = stationChargerAmt - 1;
             firebase.setStationChargerAmt(stationIndex, stationChargerAmt);
             firebase.setBorrowingStatus(borrowing);
-            Toast.makeText(getBaseContext(), "Borrowed!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Borrowed!", Toast.LENGTH_SHORT).show();
             TimerApp.timerAppInstance.startTimer();
         }
     }
 
+    /**
+     *
+     * @param stationIndex
+     * @param usageTime
+     */
     public void ReturnPortable(String stationIndex, double usageTime){
         borrowing = false;
         stationChargerAmt = stationChargerAmt + 1;
         firebase.setStationChargerAmt(stationIndex, stationChargerAmt);
         firebase.setBorrowingStatus(borrowing);
         calculatePayment(usageTime);
-        Toast.makeText(getBaseContext(), "Returned!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Returned!", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     *
+     * @param usageTime
+     */
     public void calculatePayment(double usageTime) {
-        final double amt = usageTime * 10;
+        double amt = usageTime * 1/60;
+        if (amt < 20)
+            amt = 20;
         paymentAmt.setVisibility(View.VISIBLE);
         int finalValue = currentValue - (int) amt;
         firebase.setWalletValue(finalValue);

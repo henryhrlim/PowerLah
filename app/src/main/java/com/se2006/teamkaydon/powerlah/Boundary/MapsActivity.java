@@ -42,19 +42,20 @@ import com.se2006.teamkaydon.powerlah.R;
 
 import java.util.ArrayList;
 
+/**
+ * Provides a maps for the application and doubles as the main activity of the application.
+ */
 public class MapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
-    private CameraPosition mCameraPosition;
 
     // The entry points to the Places API.
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    // A default location (Sydney, Australia) and default zoom to use when
-    // location permission is not granted.
+    // A default location (Singapore) and default zoom to use when location permission is not granted.
     private final LatLng mDefaultLocation = new LatLng(1.3439166, 103.7540051);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -75,18 +76,27 @@ public class MapsActivity extends AppCompatActivity
     // Handler to check battery level.
     private Handler batteryHandler = new Handler();
 
+    // Timer button.
     public static Button timer;
 
+    // Variable to store marker name.
+    public static String currentlySelectedMarker;
+
+    // Variables for marker click functions
     private Intent intentMarker;
     private Bundle bundleMarker;
 
+    /**
+     * Creates the map, the navigation drawer, the battery level checker and timer overlay.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+            CameraPosition mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
         // Construct a FusedLocationProviderClient
@@ -119,9 +129,7 @@ public class MapsActivity extends AppCompatActivity
         timer.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                if (timer.getText().equals("")) {
-
-                }
+                if (timer.getText().equals("")) { }
                 else {
                     startActivity(intentMarker);
                 }
@@ -133,11 +141,11 @@ public class MapsActivity extends AppCompatActivity
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     *
+     * @param googleMap
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -159,12 +167,12 @@ public class MapsActivity extends AppCompatActivity
         mMap.setOnMarkerClickListener(this);
     }
 
+    /**
+     * Request location permission, so that we can get the location of the device.
+     * The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
     private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the device.
-         * The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
@@ -174,6 +182,13 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
@@ -188,6 +203,9 @@ public class MapsActivity extends AppCompatActivity
         updateLocationUI();
     }
 
+    /**
+     *
+     */
     private void updateLocationUI() {
         if (mMap == null) {
             return;
@@ -207,11 +225,11 @@ public class MapsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Get the best and most recent location of the device, which may be null
+     * in rare cases when a location is not available.
+     */
     private void getDeviceLocation() {
-        /*
-         * Get the best and most recent location of the device, which may be null
-         * in rare cases when a location is not available.
-         */
         try {
             if (mLocationPermissionGranted) {
                 Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
@@ -280,12 +298,10 @@ public class MapsActivity extends AppCompatActivity
         public void run() {
             if (BatteryLevelReceiver.checkBatt(MapsActivity.this)) {
                 // If notified, check again in 30 minutes.
-//                System.out.println("30 mins");
                 batteryHandler.postDelayed(this, 1800000);
             }
             else {
                 // If not notified, check again in 1 minute.
-//                System.out.println("1 min");
                 batteryHandler.postDelayed(this, 60000);
             }
         }
@@ -300,14 +316,17 @@ public class MapsActivity extends AppCompatActivity
 
         //Retrieve the data from the marker.
         String stationIndex = (String) marker.getTag();
+        currentlySelectedMarker = marker.getTitle();
 
+        getDeviceLocation();
         Location.distanceBetween(mLastKnownLocation.getLatitude(),
                 mLastKnownLocation.getLongitude(),
                 marker.getPosition().latitude,
                 marker.getPosition().longitude,
                 distance);
+
         //TODO: change distance threshold back to reasonable distance when an appropriate marker location is set at SWLAB3
-        if (distance[0] <= 5000) {
+        if (distance[0] <= 200) {
             closeEnough = true;
         }
 
@@ -390,7 +409,6 @@ public class MapsActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
             startActivity(new Intent(MapsActivity.this, BatteryActivity.class));
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

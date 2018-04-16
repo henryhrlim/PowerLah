@@ -30,6 +30,8 @@ public class TimerApp extends Application {
     public static Notification.Builder n24;
     public static NotificationCompat.Builder n26;
 
+    public static Handler handler = new Handler();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -51,7 +53,6 @@ public class TimerApp extends Application {
         MapsActivity.timer.setAlpha(0);
     }
 
-    public static Handler handler = new Handler();
     public static Runnable runnable = new Runnable() {
         public void run() {
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
@@ -63,8 +64,8 @@ public class TimerApp extends Application {
             seconds = seconds % 60;
             timerText = "Borrowed for: " + String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
 
-            if (seconds == 5) {
-//            if((minutes % 60 == 0 || minutes % 60 == 30) && minutes != 0){
+//            if (seconds == 5) {
+            if((minutes % 60 == 0 || minutes % 60 == 30) && minutes != 0){
                 if (Build.VERSION.SDK_INT < 26) {
                     n24 = new Notification.Builder(timerAppInstance)
                             .setContentTitle("Power(full)")
@@ -75,7 +76,7 @@ public class TimerApp extends Application {
                     notificationManager.notify(1, n24.build());
                 }
                 else {
-                    n26 = new NotificationCompat.Builder(timerAppInstance, "test")
+                    n26 = new NotificationCompat.Builder(timerAppInstance, "timer")
                             .setContentTitle("Power(full)")
                             .setContentText("You have borrowed the charger for " + minutes + " minutes.")
                             .setBadgeIconType(R.mipmap.ic_launcher)
@@ -96,8 +97,8 @@ public class TimerApp extends Application {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         } else {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel channel = new NotificationChannel("test", "Testing Channel", NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("Channel description");
+            NotificationChannel channel = new NotificationChannel("timer", "Timer Channel", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Notification channel for timer notifications");
             notificationManager.createNotificationChannel(channel);
         }
     }
