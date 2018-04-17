@@ -73,7 +73,6 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:fontFamily="@font/press_start_2p"
-        android:text="error"
         android:textAlignment="center"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"

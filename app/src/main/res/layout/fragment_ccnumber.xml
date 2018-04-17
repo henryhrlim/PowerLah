@@ -19,7 +19,7 @@
                 style="@style/CardLabel"
                 android:text="@string/card_number"/>
 
-            <com.se2006.teamkaydon.powerlah.PaymentFramework.Utils.CreditCardEditText
+            <com.se2006.teamkaydon.powerfull.PaymentFramework.Utils.CreditCardEditText
                 style="@style/CardInput"
                 android:id="@+id/et_number"
                 android:hint="Card Number"

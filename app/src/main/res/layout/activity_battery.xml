@@ -78,7 +78,6 @@
         android:fontFamily="@font/press_start_2p"
         android:textAlignment="center"
         android:textSize="42sp"
-        android:text="@string/defaultText"
         app:layout_constraintBottom_toTopOf="@+id/seekBarBatt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
