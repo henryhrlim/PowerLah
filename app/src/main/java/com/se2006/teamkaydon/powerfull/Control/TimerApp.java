@@ -13,6 +13,9 @@ import android.support.v4.app.NotificationCompat;
 import com.se2006.teamkaydon.powerfull.Boundary.MapsActivity;
 import com.se2006.teamkaydon.powerfull.R;
 
+/**
+ * Creates a timer to track usage timing as well as to notify the user at set timing intervals.
+ */
 public class TimerApp extends Application {
 
     public static TimerApp timerAppInstance;

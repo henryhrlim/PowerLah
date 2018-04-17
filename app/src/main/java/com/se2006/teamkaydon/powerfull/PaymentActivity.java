@@ -22,6 +22,10 @@ import com.se2006.teamkaydon.powerfull.PaymentFramework.Utils.ViewPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Creates the wallet setting menu and allows the user to top-up their account with
+ * their credit card.
+ */
 public class PaymentActivity extends FragmentActivity implements FragmentManager.OnBackStackChangedListener {
 
     @BindView(R.id.btnNext)

@@ -17,7 +17,8 @@ import com.se2006.teamkaydon.powerfull.Boundary.MapsActivity;
 import com.se2006.teamkaydon.powerfull.R;
 
 /**
- *
+ * Provides a checker to check if the device battery level has fallen below the threshold.
+ * If the device battery level is below the threshold, send a notification.
  */
 public class BatteryLevelReceiver extends BroadcastReceiver {
     public static NotificationManager notificationManager;

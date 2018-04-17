@@ -6,6 +6,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.se2006.teamkaydon.powerfull.Boundary.FirebaseDAO;
 
+/**
+ * Implements methods to read and write data from the Firebase database.
+ */
 public class FirebaseManager implements FirebaseDAO {
 
     @Override
