@@ -95,6 +95,11 @@ public class TimerApp extends Application {
         }
     };
 
+    /**
+     * Creates a notification channel
+     *
+     * @param context
+     */
     public void initializeNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT < 26) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -57,6 +57,11 @@ public class ChargingStationDataManager implements ChargingStationDAO {
         mDbHelper.close();
     }
 
+    /**
+     * Retrieves the data for all charging stations from the SQLite database
+     *
+     * @return
+     */
     @SuppressLint("LongLogTag")
     public Cursor retrieveData() {
         try {
