@@ -84,7 +84,7 @@ public class MapsActivity extends AppCompatActivity
     // Variables for marker click functions
     private Intent intentMarker;
     private Bundle bundleMarker;
-    private int distanceThreshold = 200;
+    private int distanceThreshold = 5000;
 
     /**
      * Creates the map, the navigation drawer, the battery level checker and timer overlay.
@@ -365,7 +365,7 @@ public class MapsActivity extends AppCompatActivity
         }
         else {
             firstClick = true;
-            Toast.makeText(this, "You are more than 200m away from the charging station and thus cannot borrow a charger.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You are more than 50m away from the charging station and thus cannot borrow a charger.", Toast.LENGTH_LONG).show();
             return false;
         }
 
