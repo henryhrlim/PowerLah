@@ -26,7 +26,7 @@ import com.se2006.teamkaydon.powerfull.Control.TimerApp;
  */
 public class PortableChargerActivity extends AppCompatActivity {
     private int stationChargerAmt = 20;
-    private int currentValue;
+    public int currentValue;
     private Button borrowBtn;
     private Button returnBtn;
     private TextView chargerAmt;
@@ -105,8 +105,17 @@ public class PortableChargerActivity extends AppCompatActivity {
         borrowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BorrowPortable(stationIndex);
+                boolean done = BorrowPortable(stationIndex);
                 borrowBtn.setVisibility(View.GONE);
+                if(done == true){
+                    Toast.makeText(getBaseContext(), "Borrowed!", Toast.LENGTH_SHORT).show();
+                    finishActivity(0);
+
+                }
+                else{
+                    Toast.makeText(getBaseContext(), "No more portable chargers here, please return to Main Page to select another charging station.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -125,7 +134,7 @@ public class PortableChargerActivity extends AppCompatActivity {
      * activity to top up their wallet.
      * @param stationIndex String value of the index number of the current charging station user has selected to borrow/return portable charger
      */
-    public void BorrowPortable(String stationIndex){
+    public boolean BorrowPortable(String stationIndex){
 
         if(currentValue < 20){
             Toast.makeText(getBaseContext(), "Unable to borrow, wallet must have at least $20!", Toast.LENGTH_LONG).show();
@@ -133,16 +142,17 @@ public class PortableChargerActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else if (stationChargerAmt <= 0) {
-            Toast.makeText(getBaseContext(), "No more portable chargers here, please return to Main Page to select another charging station.", Toast.LENGTH_LONG).show();
+            return false;
         }
         else{
             borrowing = true;
             stationChargerAmt = stationChargerAmt - 1;
             firebase.setStationChargerAmt(stationIndex, stationChargerAmt);
             firebase.setBorrowingStatus(borrowing);
-            Toast.makeText(getBaseContext(), "Borrowed!", Toast.LENGTH_SHORT).show();
             TimerApp.timerAppInstance.startTimer();
+            return true;
         }
+        return false;
     }
 
     /**

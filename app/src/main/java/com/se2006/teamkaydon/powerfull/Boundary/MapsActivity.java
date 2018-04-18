@@ -360,7 +360,7 @@ public class MapsActivity extends AppCompatActivity
             bundleMarker = new Bundle();
             bundleMarker.putString("stationIndex", stationIndex);
             intentMarker.putExtras(bundleMarker);
-            startActivity(intentMarker);
+            startActivityForResult(intentMarker,0);
             return true;
         }
         else {
