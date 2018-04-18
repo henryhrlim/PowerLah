@@ -1,5 +1,8 @@
 package com.se2006.teamkaydon.powerfull.Entity;
 
+/**
+ * Charging Station entity. Provides get and set methods.
+ */
 public class ChargingStationData {
     public int index;
     public String name;

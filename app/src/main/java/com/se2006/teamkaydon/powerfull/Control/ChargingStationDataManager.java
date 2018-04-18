@@ -12,6 +12,10 @@ import com.se2006.teamkaydon.powerfull.Boundary.SQLiteHelper;
 
 import java.io.IOException;
 
+/**
+ * Provides methods to retrieve the charging station data from the SQLite database into the
+ * device's local storage.
+ */
 public class ChargingStationDataManager implements ChargingStationDAO {
     protected static final String TAG = "ChargingStationDataManager";
 
@@ -53,6 +57,11 @@ public class ChargingStationDataManager implements ChargingStationDAO {
         mDbHelper.close();
     }
 
+    /**
+     * Retrieves the data for all charging stations from the SQLite database
+     *
+     * @return
+     */
     @SuppressLint("LongLogTag")
     public Cursor retrieveData() {
         try {

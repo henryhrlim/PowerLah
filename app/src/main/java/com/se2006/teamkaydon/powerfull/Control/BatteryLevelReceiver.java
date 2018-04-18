@@ -17,7 +17,8 @@ import com.se2006.teamkaydon.powerfull.Boundary.MapsActivity;
 import com.se2006.teamkaydon.powerfull.R;
 
 /**
- *
+ * Provides a checker to check if the device battery level has fallen below the threshold.
+ * If the device battery level is below the threshold, send a notification.
  */
 public class BatteryLevelReceiver extends BroadcastReceiver {
     public static NotificationManager notificationManager;
@@ -30,6 +31,13 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
     }
 
 
+    /**
+     * Checks the device's current battery level. If it is below the threshold that the user
+     * set, send a notification and return true. Else return false.
+     *
+     * @param context
+     * @return
+     */
     public static boolean checkBatt(Context context){
         initializeNotificationChannel(context);
         IntentFilter iFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -69,6 +77,11 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
         return false;
     }
 
+    /**
+     * Creates a notification channel
+     *
+     * @param context
+     */
     public static void initializeNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT < 26) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
