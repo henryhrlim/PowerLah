@@ -112,7 +112,7 @@ public class PortableChargerActivity extends AppCompatActivity {
                     finishActivity(0);
 
                 }
-                else{
+                else if (stationChargerAmt <= 0){
                     Toast.makeText(getBaseContext(), "No more portable chargers here, please return to Main Page to select another charging station.", Toast.LENGTH_LONG).show();
                 }
 
