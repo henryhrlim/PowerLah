@@ -75,13 +75,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/press_start_2p"
+        android:fontFamily="@font/scoreboard"
         android:textAlignment="center"
-        android:textSize="42sp"
+        android:textSize="60sp"
         app:layout_constraintBottom_toTopOf="@+id/seekBarBatt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.587" />
+        app:layout_constraintVertical_bias="0.465" />
 </android.support.constraint.ConstraintLayout>

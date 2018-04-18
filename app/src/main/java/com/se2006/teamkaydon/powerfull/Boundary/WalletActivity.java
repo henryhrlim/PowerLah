@@ -67,7 +67,7 @@ public class WalletActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 walletValue = dataSnapshot.getValue(int.class);
-                currentAmount.setText("$" + String.valueOf(walletValue));
+                currentAmount.setText(String.valueOf(walletValue));
             }
 
             @Override

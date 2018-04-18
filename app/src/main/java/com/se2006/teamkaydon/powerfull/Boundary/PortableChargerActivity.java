@@ -132,6 +132,9 @@ public class PortableChargerActivity extends AppCompatActivity {
             Intent intent = new Intent(PortableChargerActivity.this, WalletActivity.class);
             startActivity(intent);
         }
+        else if (stationChargerAmt <= 0) {
+            Toast.makeText(getBaseContext(), "No more portable chargers here, please return to Main Page to select another charging station.", Toast.LENGTH_LONG).show();
+        }
         else{
             borrowing = true;
             stationChargerAmt = stationChargerAmt - 1;
@@ -162,12 +165,17 @@ public class PortableChargerActivity extends AppCompatActivity {
      * @param usageTime Double value of the length of time user has been borrowing the portable charger for.
      */
     public void calculatePayment(double usageTime) {
-        double amt = usageTime * 1/60;
-        if (amt < 20)
+        //TODO change the payment rate back after live demo
+        double amt = usageTime;
+        if (amt>20){
             amt = 20;
+        }
         paymentAmt.setVisibility(View.VISIBLE);
         int finalValue = currentValue - (int) amt;
+        if(finalValue < 0){
+            finalValue = 0;
+        }
         firebase.setWalletValue(finalValue);
-        paymentAmt.setText("Deducted $" + Double.toString(amt) + "from your wallet.");
+        paymentAmt.setText("Deducted $" + Double.toString(amt) + " from your wallet.");
     }
 }

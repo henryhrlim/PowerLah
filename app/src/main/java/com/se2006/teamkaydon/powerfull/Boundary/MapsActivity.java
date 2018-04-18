@@ -316,8 +316,8 @@ public class MapsActivity extends AppCompatActivity
                 batteryHandler.postDelayed(this, 1800000);
             }
             else {
-                // If not notified, check again in 1 minute.
-                batteryHandler.postDelayed(this, 60000);
+                // If not notified, check again in 50 seconds.
+                batteryHandler.postDelayed(this, 50000);
             }
         }
     };
@@ -339,7 +339,7 @@ public class MapsActivity extends AppCompatActivity
         String stationIndex = (String) marker.getTag();
         currentlySelectedMarker = marker.getTitle();
 
-        getDeviceLocation();
+        //getDeviceLocation();
         Location.distanceBetween(mLastKnownLocation.getLatitude(),
                 mLastKnownLocation.getLongitude(),
                 marker.getPosition().latitude,

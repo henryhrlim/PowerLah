@@ -61,15 +61,15 @@ public class TimerApp extends Application {
 
             seconds = (int) (updatedTime / 1000);
             minutes = seconds / 60;
-            seconds = seconds % 60;
-            timerText = "Borrowed for: " + String.format("%02d", minutes) + ":" + String.format("%02d", seconds);
+            int timerSeconds = seconds%60;
+            timerText = "Borrowed for: " + String.format("%02d", minutes) + ":" + String.format("%02d", timerSeconds);
 
-//            if (seconds == 5) {
-            if((minutes % 60 == 0 || minutes % 60 == 30) && minutes != 0){
+//          TODO Change the notification frequency back after live demo
+            if(((timeInMilliseconds/10)%6000 == 0) && minutes != 0){
                 if (Build.VERSION.SDK_INT < 26) {
                     n24 = new Notification.Builder(timerAppInstance)
-                            .setContentTitle("Power(full)")
-                            .setContentText("You have borrowed the charger for " + minutes + " minutes.")
+                            .setContentTitle("Power-full")
+                            .setContentText("You have borrowed the charger for " + minutes + " minute(s).")
                             .setSmallIcon(R.mipmap.ic_launcher_round)
                             .setDefaults(Notification.DEFAULT_ALL)
                             .setPriority(Notification.PRIORITY_MAX);
@@ -77,8 +77,8 @@ public class TimerApp extends Application {
                 }
                 else {
                     n26 = new NotificationCompat.Builder(timerAppInstance, "timer")
-                            .setContentTitle("Power(full)")
-                            .setContentText("You have borrowed the charger for " + minutes + " minutes.")
+                            .setContentTitle("Power-full")
+                            .setContentText("You have borrowed the charger for " + minutes + " minute(s).")
                             .setBadgeIconType(R.mipmap.ic_launcher)
                             .setSmallIcon(R.mipmap.ic_launcher_round)
                             .setDefaults(Notification.DEFAULT_ALL)
