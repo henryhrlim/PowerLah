@@ -40,7 +40,8 @@ public class WalletActivity extends AppCompatActivity {
 
     FirebaseDAO firebase = new FirebaseManager();
 
-    /**Instantiates UI elements such as the wallet value textview and the top up wallet button
+    /**
+     * Instantiates UI elements such as the wallet value textview and the top up wallet button
      * @param savedInstanceState
      */
     @Override
@@ -98,7 +99,8 @@ public class WalletActivity extends AppCompatActivity {
 
     }
 
-    /** Method to run statements returning from previously called Activity from Intent requestCode
+    /**
+     * Method to run statements returning from previously called Activity from Intent requestCode
      * @param requestCode Integer object for requestCode from passed Intent
      * @param resultCode Integer object for resultCode from passed Intent
      * @param data Intent object

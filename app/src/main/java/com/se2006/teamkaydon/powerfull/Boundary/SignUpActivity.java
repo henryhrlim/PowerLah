@@ -33,7 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
-    /** Instantiates interface for users to sign up, sets up new user account upon signing up and log new user in.
+    /**
+     * Instantiates interface for users to sign up, sets up new user account upon signing up and log new user in.
      * @param savedInstanceState savedInstanceState a Bundle object containing previously saved instance state
      */
     @Override
@@ -41,6 +42,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        register();
+    }
+
+    private void register() {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -119,7 +124,8 @@ public class SignUpActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    /**On user creation success, method is called to set up new user account details in the Firebase Database.
+    /**
+     * On user creation success, method is called to set up new user account details in the Firebase Database.
      * @param user FirebaseUser object of current user
      */
     private void onAuthSuccess(FirebaseUser user){

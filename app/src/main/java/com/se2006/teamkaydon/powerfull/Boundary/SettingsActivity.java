@@ -27,7 +27,7 @@ import com.se2006.teamkaydon.powerfull.R;
  */
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
+    private Button btnChangeEmail, btnChangePassword, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut;
 
     private EditText oldEmail, newEmail, password, newPassword;
@@ -120,27 +120,7 @@ public class SettingsActivity extends AppCompatActivity {
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null && !newEmail.getText().toString().trim().equals("")) {
-                    user.updateEmail(newEmail.getText().toString().trim())
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(SettingsActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
-                                        signOut();
-                                        progressBar.setVisibility(View.GONE);
-                                    } else {
-                                        Toast.makeText(SettingsActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
-                                        progressBar.setVisibility(View.GONE);
-                                    }
-                                }
-                            });
-                } else if (newEmail.getText().toString().trim().equals("")) {
-                    newEmail.setError("Enter email");
-                    progressBar.setVisibility(View.GONE);
-                }
+                updateEmail();
             }
         });
 
@@ -161,97 +141,14 @@ public class SettingsActivity extends AppCompatActivity {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null && !newPassword.getText().toString().trim().equals("")) {
-                    if (newPassword.getText().toString().trim().length() < 6) {
-                        newPassword.setError("Password too short, enter minimum 6 characters");
-                        progressBar.setVisibility(View.GONE);
-                    } else {
-                        user.updatePassword(newPassword.getText().toString().trim())
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(SettingsActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
-                                            signOut();
-                                            progressBar.setVisibility(View.GONE);
-                                        } else {
-                                            Toast.makeText(SettingsActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
-                                            progressBar.setVisibility(View.GONE);
-                                        }
-                                    }
-                                });
-                    }
-                } else if (newPassword.getText().toString().trim().equals("")) {
-                    newPassword.setError("Enter password");
-                    progressBar.setVisibility(View.GONE);
-                }
+                updatePassword();
             }
         });
-
-//        btnSendResetEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                oldEmail.setVisibility(View.VISIBLE);
-//                newEmail.setVisibility(View.GONE);
-//                password.setVisibility(View.GONE);
-//                newPassword.setVisibility(View.GONE);
-//                changeEmail.setVisibility(View.GONE);
-//                changePassword.setVisibility(View.GONE);
-//                sendEmail.setVisibility(View.VISIBLE);
-//                remove.setVisibility(View.GONE);
-//            }
-//        });
-//
-//        sendEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                progressBar.setVisibility(View.VISIBLE);
-//                user = FirebaseAuth.getInstance().getCurrentUser();
-//                if (!oldEmail.getText().toString().trim().equals("")) {
-//                    auth.sendPasswordResetEmail(oldEmail.getText().toString().trim())
-//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(SettingsActivity.this, "Reset password email is sent!", Toast.LENGTH_SHORT).show();
-//                                        progressBar.setVisibility(View.GONE);
-//                                    } else {
-//                                        Toast.makeText(SettingsActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
-//                                        progressBar.setVisibility(View.GONE);
-//                                    }
-//                                }
-//                            });
-//                } else {
-//                    oldEmail.setError("Enter email");
-//                    progressBar.setVisibility(View.GONE);
-//                }
-//            }
-//        });
 
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    user.delete()
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(SettingsActivity.this, "Your account is successfully deleted.", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(SettingsActivity.this, SignUpActivity.class));
-                                        finish();
-                                        progressBar.setVisibility(View.GONE);
-                                    } else {
-                                        Toast.makeText(SettingsActivity.this, "Failed to delete your account.", Toast.LENGTH_SHORT).show();
-                                        progressBar.setVisibility(View.GONE);
-                                    }
-                                }
-                            });
-                }
+                deleteAccount();
             }
         });
 
@@ -265,9 +162,93 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     /**
+     * Updates the user's email to the new email that was entered.
+     */
+    private void updateEmail() {
+        progressBar.setVisibility(View.VISIBLE);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && !newEmail.getText().toString().trim().equals("")) {
+            user.updateEmail(newEmail.getText().toString().trim())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(SettingsActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
+                                signOut();
+                                progressBar.setVisibility(View.GONE);
+                            } else {
+                                Toast.makeText(SettingsActivity.this, "Failed to update email!", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+        } else if (newEmail.getText().toString().trim().equals("")) {
+            newEmail.setError("Enter email");
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Updates the user's password to the new password that was entered.
+     */
+    private void updatePassword() {
+        progressBar.setVisibility(View.VISIBLE);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && !newPassword.getText().toString().trim().equals("")) {
+            if (newPassword.getText().toString().trim().length() < 6) {
+                newPassword.setError("Password too short, enter minimum 6 characters");
+                progressBar.setVisibility(View.GONE);
+            } else {
+                user.updatePassword(newPassword.getText().toString().trim())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SettingsActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
+                                    signOut();
+                                    progressBar.setVisibility(View.GONE);
+                                } else {
+                                    Toast.makeText(SettingsActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+            }
+        } else if (newPassword.getText().toString().trim().equals("")) {
+            newPassword.setError("Enter password");
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Deletes the current user's account and logs him out.
+     */
+    private void deleteAccount() {
+        progressBar.setVisibility(View.VISIBLE);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(SettingsActivity.this, "Your account is successfully deleted.", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(SettingsActivity.this, SignUpActivity.class));
+                                finish();
+                                progressBar.setVisibility(View.GONE);
+                            } else {
+                                Toast.makeText(SettingsActivity.this, "Failed to delete your account.", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+        }
+    }
+
+    /**
      * Sign out method
      */
-    public void signOut() {
+    private void signOut() {
         auth.signOut();
     }
 
