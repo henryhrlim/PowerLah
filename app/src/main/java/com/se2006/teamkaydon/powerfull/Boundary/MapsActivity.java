@@ -44,6 +44,10 @@ import java.util.ArrayList;
 
 /**
  * Provides Google Maps view for the application and doubles as the main activity of the application.
+ *
+ * @author Team Kaydon
+ * @version 1.0
+ * @since 2018-04-17
  */
 public class MapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -88,7 +92,7 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * Creates the map, the navigation drawer, the battery level checker and timer overlay.
-     * @param savedInstanceState
+     * @param savedInstanceState savedInstanceState a Bundle object containing previously saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +149,7 @@ public class MapsActivity extends AppCompatActivity
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      *
-     * @param googleMap
+     * @param googleMap a Google Map object
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -185,9 +189,9 @@ public class MapsActivity extends AppCompatActivity
 
     /**
      * Handles callback for result of permission request for location services of device. Calls updateLocationUI() after handling permission request callback.
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode permission request code
+     * @param permissions list of permissions
+     * @param grantResults list of statuses on whether the permissions were granted or not
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -204,7 +208,7 @@ public class MapsActivity extends AppCompatActivity
     }
 
     /**
-     *
+     * Initializes the location UI on the Maps interface.
      */
     private void updateLocationUI() {
         if (mMap == null) {

@@ -28,7 +28,7 @@ public class BatteryActivity extends AppCompatActivity {
     private static int battThreshold;             //default is 10.
     /**
      * Creates battery threshold menu at the start of a BatteryActivity instance.
-     * @param savedInstanceState
+     * @param savedInstanceState savedInstanceState a Bundle object containing previously saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class BatteryActivity extends AppCompatActivity {
 
     /**
      * Returns back to MapsActivity
-     * @param item
+     * @param item the button that was pressed in the menu in MapsActivity
      * @return boolean Returns true or false based on succession of method
      */
     @Override

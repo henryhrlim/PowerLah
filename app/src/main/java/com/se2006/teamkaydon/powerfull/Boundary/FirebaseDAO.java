@@ -7,6 +7,10 @@ import com.google.firebase.database.DatabaseReference;
 /**
  * Data Access Object that provides a list of functions for different classes to access
  * data in firebase.
+ *
+ * @author Team Kaydon
+ * @version 1.0
+ * @since 2018-04-17
  */
 public interface FirebaseDAO {
     FirebaseAuth getInstance();
