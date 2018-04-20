@@ -42,10 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        register();
-    }
-
-    private void register() {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -73,49 +69,65 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-                //create user
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    onAuthSuccess(task.getResult().getUser());
-                                    startActivity(new Intent(SignUpActivity.this, MapsActivity.class));
-                                    finish();
-                                }
-                            }
-                        });
-
+                register();
             }
         });
+    }
+
+    /**
+     * Register a new user.
+     */
+    private void register() {
+
+        String email = inputEmail.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        //create user
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        registrationDone(task);
+                    }
+                });
+
+    }
+
+    /**
+     * If sign in fails, display a message to the user. If sign in succeeds the auth state
+     * listener will be notified and logic to handle the signed in user can be
+     * handled in the listener.
+     *
+     * @param task Authentication result
+     */
+    private void registrationDone(@NonNull Task<AuthResult> task) {
+        Toast.makeText(SignUpActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+        progressBar.setVisibility(View.GONE);
+
+        if (!task.isSuccessful()) {
+            Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            onAuthSuccess(task.getResult().getUser());
+            startActivity(new Intent(SignUpActivity.this, MapsActivity.class));
+            finish();
+        }
     }
 
     @Override
