@@ -130,7 +130,8 @@ public class PortableChargerActivity extends AppCompatActivity {
     }
 
 
-    /**Logic for borrowing portable charger from the selected charging station, if user's wallet value is below $20, user is redirected to wallet
+    /**
+     * Logic for borrowing portable charger from the selected charging station, if user's wallet value is below $20, user is redirected to wallet
      * activity to top up their wallet.
      * @param stationIndex String value of the index number of the current charging station user has selected to borrow/return portable charger
      */
@@ -140,6 +141,7 @@ public class PortableChargerActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Unable to borrow, wallet must have at least $20!", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(PortableChargerActivity.this, WalletActivity.class);
             startActivity(intent);
+            return false;
         }
         else if (stationChargerAmt <= 0) {
             return false;
@@ -152,11 +154,10 @@ public class PortableChargerActivity extends AppCompatActivity {
             TimerApp.timerAppInstance.startTimer();
             return true;
         }
-        return false;
     }
 
     /**
-     *Logic for returning portable charger to the selected charging station, including calling method calculatePayment() to calculate the
+     * Logic for returning portable charger to the selected charging station, including calling method calculatePayment() to calculate the
      * payment required from the user.
      * @param stationIndex String value of the index number of the current charging station user has selected to borrow/return portable charger
      * @param usageTime Double value of the length of time user has been borrowing the portable charger for.
@@ -171,7 +172,7 @@ public class PortableChargerActivity extends AppCompatActivity {
     }
 
     /**
-     *Logic for calculating the charge rate for borrowing the portable charger for the set amount of usage time.
+     * Logic for calculating the charge rate for borrowing the portable charger for the set amount of usage time.
      * @param usageTime Double value of the length of time user has been borrowing the portable charger for.
      */
     public void calculatePayment(double usageTime) {

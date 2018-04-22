@@ -28,7 +28,8 @@ public class BatteryActivity extends AppCompatActivity {
     private static int battThreshold;             //default is 10.
     /**
      * Creates battery threshold menu at the start of a BatteryActivity instance.
-     * @param savedInstanceState savedInstanceState a Bundle object containing previously saved instance state
+     * @param savedInstanceState savedInstanceState a Bundle object containing previously saved
+     *                           instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,8 @@ public class BatteryActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getApplicationContext(),"Threshold is now set to " + battThreshold + "%", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Threshold is now set to "
+                        + battThreshold + "%", Toast.LENGTH_SHORT).show();
             }
         });
 
