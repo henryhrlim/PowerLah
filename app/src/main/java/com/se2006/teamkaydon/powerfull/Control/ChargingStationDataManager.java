@@ -60,7 +60,7 @@ public class ChargingStationDataManager implements ChargingStationDAO {
     /**
      * Retrieves the data for all charging stations from the SQLite database
      *
-     * @return
+     * @return Returns Cursor object with the charging station data
      */
     @SuppressLint("LongLogTag")
     public Cursor retrieveData() {

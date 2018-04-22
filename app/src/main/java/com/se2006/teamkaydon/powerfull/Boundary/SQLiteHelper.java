@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * SQLite helper class provide methods to read SQL database files
  *
  * @author Team Kaydon
- * @vesion 1.0
+ * @version 1.0
  * @since 2018-04-17
  */
 public class SQLiteHelper extends SQLiteOpenHelper {

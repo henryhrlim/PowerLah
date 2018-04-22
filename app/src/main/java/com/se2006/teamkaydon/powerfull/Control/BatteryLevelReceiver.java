@@ -35,8 +35,8 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
      * Checks the device's current battery level. If it is below the threshold that the user
      * set, send a notification and return true. Else return false.
      *
-     * @param context
-     * @return
+     * @param context Context Object
+     * @return return true if battery is below threshold, else return false
      */
     public static boolean checkBatt(Context context){
         initializeNotificationChannel(context);
